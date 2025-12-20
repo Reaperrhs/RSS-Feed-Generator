@@ -1,36 +1,55 @@
-import { GoogleGenAI } from "@google/genai";
-
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
 export const generateRSSFromURL = async (url: string): Promise<string> => {
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  if (!apiKey) {
+    throw new Error("OpenRouter API Key is missing. Please add it to your settings or .env.local file.");
+  }
+
   try {
     const prompt = `
       Task: Create a valid RSS 2.0 XML feed for the website: ${url}
       
       Steps:
-      1. Use Google Search to find the 5-10 most recent articles, blog posts, or news items from this specific URL.
+      1. Use your knowledge or simulated search to find the 5-10 most recent articles, blog posts, or news items from this specific URL.
       2. For each item, extract: Title, Link, Description/Snippet, PubDate, and a representative Image URL.
       3. Generate the XML string.
       
       Requirements:
+      - Start with exactly: <?xml version="1.0" encoding="UTF-8"?>
       - Root element must be <rss version="2.0">.
       - Contain a <channel> with title, link, description.
       - Items must include <title>, <link>, <description>, <pubDate> (RFC-822 format), and <enclosure> for images.
+      - IMPORTANT: Escape all special characters for XML (e.g., replace & with &amp;).
+      - Ensure all URLs in <link> and <enclosure url="..."> tags are valid and properly escaped.
       - STRICTLY RETURN ONLY THE XML STRING.
       - Do not include markdown formatting (like \`\`\`xml).
       - Do not include any conversational text before or after the XML.
     `;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-preview',
-      contents: prompt,
-      config: {
-        tools: [{ googleSearch: {} }],
-        thinkingConfig: { thinkingBudget: 1024 } 
-      }
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "HTTP-Referer": window.location.origin,
+        "X-Title": "RSS Gen AI",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        "model": "google/gemini-2.0-flash-001",
+        "messages": [
+          { "role": "user", "content": prompt }
+        ]
+      })
     });
 
-    let text = response.text || '';
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error?.message || `OpenRouter API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    let text = data.choices[0]?.message?.content || "";
+
+    console.log("OpenRouter Response:", text);
 
     // 1. Try to extract from markdown code blocks first
     const markdownMatch = text.match(/```(?:xml)?\s*([\s\S]*?)\s*```/);
@@ -41,25 +60,22 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
     // 2. Find the index of the XML declaration or RSS root tag
     const xmlDeclIndex = text.indexOf('<?xml');
     const rssTagIndex = text.indexOf('<rss');
-    
+
     let startIndex = -1;
     if (xmlDeclIndex !== -1) {
       startIndex = xmlDeclIndex;
     } else if (rssTagIndex !== -1) {
-      // If valid XML declaration missing, but RSS tag present, start there
-      // (Precedence to xmlDecl if both exist and xmlDecl is first, which is standard)
       if (xmlDeclIndex === -1 || rssTagIndex < xmlDeclIndex) {
-         startIndex = rssTagIndex;
+        startIndex = rssTagIndex;
       }
     }
 
     if (startIndex !== -1) {
       text = text.substring(startIndex);
     } else {
-        // If no XML tags found, throw a specific error to catch in UI
-        if (text.length < 50 && (text.toLowerCase().includes("cannot") || text.toLowerCase().includes("sorry"))) {
-             throw new Error("The AI could not generate a feed for this URL. It might be inaccessible or lack recent content.");
-        }
+      if (text.length < 50 && (text.toLowerCase().includes("cannot") || text.toLowerCase().includes("sorry"))) {
+        throw new Error("The AI could not generate a feed for this URL. It might be inaccessible or lack recent content.");
+      }
     }
 
     // 3. Trim trailing content after the closing tag
@@ -68,13 +84,19 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
       text = text.substring(0, closingTagIndex + 6);
     }
 
+    // 4. Sanitize unescaped ampersands in URLs (Common issue with AI)
+    // This looks for & character that is NOT part of an existing entity like &amp;
+    text = text.replace(/&(?!(?:amp|lt|gt|quot|apos);)/g, '&amp;');
+
+    // 5. Force XML version to 1.0 if AI produces 2.0 (Common LLM hallucination)
+    text = text.replace(/<\?xml\s+version=["']2\.0["']/, '<?xml version="1.0"');
+
     return text.trim();
   } catch (error: any) {
-    console.error("Gemini API Error:", error);
-    // Pass through specific error messages
+    console.error("OpenRouter API Error:", error);
     if (error.message.includes("AI could not generate")) {
-        throw error;
+      throw error;
     }
-    throw new Error("Failed to generate RSS feed. The AI response was not valid XML.");
+    throw new Error(error.message || "Failed to generate RSS feed. The AI response was not valid XML.");
   }
 };
