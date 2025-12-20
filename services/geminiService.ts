@@ -76,7 +76,11 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
       3. For "description": 
          - Search for an excerpt/summary. 
          - **CRITICAL:** If NO summary is found in the HTML, you MUST GENERATE a short, engaging 1-sentence summary based on the article title. Do NOT leave it empty.
-      4. For images, look in <img> 'src' or 'data-src', or use the first image in the card.
+      4. For images:
+         - Look for <img> tags. Check 'src', 'data-src', 'data-lazy-src', and 'srcset'.
+         - Look for images inside <a class="thumbnail-link"> or with class "wp-post-image".
+         - If 'srcset' is present, extract the URL for the largest version.
+         - Do NOT use 1x1 pixels or placeholder images.
     `;
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
