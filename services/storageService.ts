@@ -49,7 +49,7 @@ export const deleteFeed = (id: string): void => {
 export const parseXMLToFeed = (xml: string): any => {
   const parser = new DOMParser();
   const xmlDoc = parser.parseFromString(xml, "text/xml");
-  
+
   // Check for parsing errors explicitly
   const parserError = xmlDoc.querySelector("parsererror");
   if (parserError) {
@@ -70,39 +70,46 @@ export const parseXMLToFeed = (xml: string): any => {
   const lastBuildDate = channel.querySelector("lastBuildDate")?.textContent;
 
   const items: any[] = [];
+  const decodeEntities = (text: string) => {
+    if (!text) return text;
+    const textArea = document.createElement('textarea');
+    textArea.innerHTML = text;
+    return textArea.value;
+  };
+
   const itemNodes = xmlDoc.querySelectorAll("item");
-  
   itemNodes.forEach(node => {
-    const enclosure = node.querySelector("enclosure");
+    const enclosures = node.getElementsByTagName("enclosure");
     let imageUrl = undefined;
-    
+
     // Check for enclosure (standard RSS image)
-    if (enclosure) {
-      const type = enclosure.getAttribute("type");
-      // Basic check if it's an image type or if explicitly no type but looks like an image
-      if ((type && type.startsWith("image")) || !type) {
-        imageUrl = enclosure.getAttribute("url") || undefined;
+    if (enclosures.length > 0) {
+      const enc = enclosures[0];
+      const type = enc.getAttribute("type");
+      const url = enc.getAttribute("url");
+
+      if (url && ((type && type.startsWith("image")) || !type || url.includes(".jpg") || url.includes(".png") || url.includes(".jpeg"))) {
+        imageUrl = decodeEntities(url);
       }
     }
 
-    // Fallback: Check for Media RSS <media:content> or <media:thumbnail> if model uses that namespace
+    // Fallback: Check for Media RSS
     if (!imageUrl) {
-        const mediaContent = node.getElementsByTagNameNS("http://search.yahoo.com/mrss/", "content")[0];
-        if (mediaContent) imageUrl = mediaContent.getAttribute("url") || undefined;
-    }
-    if (!imageUrl) {
-        const mediaThumbnail = node.getElementsByTagNameNS("http://search.yahoo.com/mrss/", "thumbnail")[0];
-        if (mediaThumbnail) imageUrl = mediaThumbnail.getAttribute("url") || undefined;
+      const mediaContents = node.getElementsByTagNameNS("http://search.yahoo.com/mrss/", "content");
+      if (mediaContents.length > 0) imageUrl = decodeEntities(mediaContents[0].getAttribute("url") || "");
     }
 
-    items.push({
-      title: node.querySelector("title")?.textContent || "No Title",
-      link: node.querySelector("link")?.textContent || "#",
-      description: node.querySelector("description")?.textContent || "",
-      pubDate: node.querySelector("pubDate")?.textContent,
-      guid: node.querySelector("guid")?.textContent,
+    const item = {
+      title: decodeEntities(node.querySelector("title")?.textContent || "No Title"),
+      link: decodeEntities(node.querySelector("link")?.textContent || "#"),
+      description: decodeEntities(node.querySelector("description")?.textContent || ""),
+      pubDate: decodeEntities(node.querySelector("pubDate")?.textContent || ""),
+      guid: decodeEntities(node.querySelector("guid")?.textContent || ""),
       imageUrl: imageUrl
-    });
+    };
+
+    console.log("Extracted Feed Item (Decoded):", item);
+    items.push(item);
   });
 
   return {

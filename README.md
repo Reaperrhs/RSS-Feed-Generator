@@ -21,10 +21,14 @@ View your app in AI Studio: https://ai.studio/apps/drive/1DPOb3eb4GHAuydFj-iBjjM
 
 ## Deploy with Coolify
 
-This app is ready for deployment on Coolify as a Docker container.
+This app is ready for deployment on Coolify as a Docker container. 
+
+> [!IMPORTANT]
+> Because this is a Vite (frontend) app, environment variables must be available **at build time**.
 
 1.  **Source**: Link your GitHub repository.
 2.  **Environment Variables**:
     *   Add `GEMINI_API_KEY` as a **Build Variable**.
+    *   Add `OPENROUTER_API_KEY` as a **Build Variable**.
 3.  **Port**: Set the target port to `80`.
-4.  **Build**: Coolify will automatically detect the `Dockerfile` and build the application.
+4.  **Build**: Coolify will automatically detect the `Dockerfile`, inject the build variables, and serve the app via Nginx.

@@ -10,16 +10,20 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
       
       Steps:
       1. Use your knowledge or simulated search to find the 5-10 most recent articles, blog posts, or news items from this specific URL.
-      2. For each item, extract: Title, Link, Description/Snippet, PubDate, and a representative Image URL.
+      2. For each item, you MUST extract:
+         - Title: The clear, concise headline of the post.
+         - Post URL: The direct, permanent link to the full article.
+         - Publish Date: The original date/time the post was published (RFC-822 format).
+         - Content Snippet: A meaningful 2-3 sentence summary or excerpt from the start of the article.
+         - Image URL: A high-quality representative image or thumbnail for the post.
       3. Generate the XML string.
       
       Requirements:
       - Start with exactly: <?xml version="1.0" encoding="UTF-8"?>
       - Root element must be <rss version="2.0">.
       - Contain a <channel> with title, link, description.
-      - Items must include <title>, <link>, <description>, <pubDate> (RFC-822 format), and <enclosure> for images.
-      - IMPORTANT: Escape all special characters for XML (e.g., replace & with &amp;).
-      - Ensure all URLs in <link> and <enclosure url="..."> tags are valid and properly escaped.
+      - Each <item> MUST include: <title>, <link>, <description> (the content snippet), <pubDate> (RFC-822), and <enclosure url="..." type="image/jpeg" length="0" /> for the Image URL.
+      - Ensure all URLs in <link> and <enclosure url="..."> tags are valid.
       - STRICTLY RETURN ONLY THE XML STRING.
       - Do not include markdown formatting (like \`\`\`xml).
       - Do not include any conversational text before or after the XML.
