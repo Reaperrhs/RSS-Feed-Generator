@@ -12,18 +12,22 @@ const fetchWebPage = async (url: string): Promise<string> => {
   }
 };
 
-// Helper to escape XML characters
+// Helper to escape XML characters and remove invalid control characters
 const escapeXml = (unsafe: string): string => {
-  return unsafe.replace(/[<>&'"]/g, (c) => {
-    switch (c) {
-      case '<': return '&lt;';
-      case '>': return '&gt;';
-      case '&': return '&amp;';
-      case '\'': return '&apos;';
-      case '"': return '&quot;';
-      default: return c;
-    }
-  });
+  return unsafe
+    .replace(/[<>&'"]/g, (c) => {
+      switch (c) {
+        case '<': return '&lt;';
+        case '>': return '&gt;';
+        case '&': return '&amp;';
+        case '\'': return '&apos;';
+        case '"': return '&quot;';
+        default: return c;
+      }
+    })
+    // Remove control characters (0-8, 11-12, 14-31, 127) which are invalid in XML 1.0
+    // eslint-disable-next-line no-control-regex
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
 };
 
 export const generateRSSFromURL = async (url: string): Promise<string> => {
@@ -113,14 +117,18 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
       }
     }
 
+    // Safely get items array
+    const items = Array.isArray(parsedData.items) ? parsedData.items : [];
+
     // Generate XML with URL Normalization
-    const rssItems = parsedData.items.map((item: any) => {
+    const rssItems = items.map((item: any) => {
       // Normalize Link
       let finalLink = item.link;
       try {
         finalLink = new URL(item.link, url).href;
       } catch (e) {
         console.warn(`Failed to normalize link: ${item.link}`, e);
+        // Fallback to original link if normalization fails
       }
 
       // Normalize Image
@@ -139,8 +147,8 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
       return `
         <item>
           <title>${escapeXml(item.title || 'No Title')}</title>
-          <link>${escapeXml(finalLink)}</link>
-          <guid isPermaLink="true">${escapeXml(finalLink)}</guid>
+          <link>${escapeXml(finalLink || '#')}</link>
+          <guid isPermaLink="true">${escapeXml(finalLink || '#')}</guid>
           <description>${escapeXml(item.description || '')}</description>
           <pubDate>${escapeXml(item.pubDate || new Date().toUTCString())}</pubDate>
           ${imgTag}
@@ -158,7 +166,7 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
   </channel>
 </rss>`;
 
-    return rssXml;
+    return rssXml.trim();
 
   } catch (error: any) {
     console.error("OpenRouter API Error:", error);
