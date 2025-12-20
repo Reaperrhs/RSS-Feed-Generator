@@ -63,7 +63,7 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
           {
             "title": "Article Title",
             "link": "URL (absolute or relative)",
-            "description": "Short summary",
+            "description": "Short summary (Required, use Title if no summary found)",
             "pubDate": "Date string",
             "image": "Image URL (optional)"
           }
@@ -144,12 +144,15 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
            <media:content url="${escapeXml(finalImage)}" medium="image" />`
         : '';
 
+      // Ensure description is never empty
+      const description = item.description || item.title || 'No description available';
+
       return `
         <item>
           <title>${escapeXml(item.title || 'No Title')}</title>
           <link>${escapeXml(finalLink || '#')}</link>
           <guid isPermaLink="true">${escapeXml(finalLink || '#')}</guid>
-          <description>${escapeXml(item.description || '')}</description>
+          <description>${escapeXml(description)}</description>
           <pubDate>${escapeXml(item.pubDate || new Date().toUTCString())}</pubDate>
           ${imgTag}
         </item>
