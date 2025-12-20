@@ -63,7 +63,7 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
           {
             "title": "Article Title",
             "link": "URL (absolute or relative)",
-            "description": "Short summary (Required, use Title if no summary found)",
+            "description": "Short summary (Extract if available, otherwise GENERATE a 1-sentence summary based on the title)",
             "pubDate": "Date string",
             "image": "Image URL (optional)"
           }
@@ -73,7 +73,10 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
       Requirements:
       1. Extract REAL items from the HTML. Do not hallucinate.
       2. If a link is relative (e.g., "/news/123"), keep it relative. The system will handle normalization.
-      3. For images, look in <img> 'src' or 'data-src', or use the first image in the card.
+      3. For "description": 
+         - Search for an excerpt/summary. 
+         - **CRITICAL:** If NO summary is found in the HTML, you MUST GENERATE a short, engaging 1-sentence summary based on the article title. Do NOT leave it empty.
+      4. For images, look in <img> 'src' or 'data-src', or use the first image in the card.
     `;
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
