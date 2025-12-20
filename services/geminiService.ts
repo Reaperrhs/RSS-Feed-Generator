@@ -1,3 +1,17 @@
+const fetchWebPage = async (url: string): Promise<string> => {
+  try {
+    // using allorigins as a free CORS proxy
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+    const response = await fetch(proxyUrl);
+    if (!response.ok) throw new Error("Failed to fetch page content");
+    const data = await response.json();
+    return data.contents;
+  } catch (error) {
+    console.warn("Proxy fetch failed, falling back to direct knowledge:", error);
+    return ""; // Fallback to empty string to let AI use knowledge if fetch fails
+  }
+};
+
 export const generateRSSFromURL = async (url: string): Promise<string> => {
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
@@ -5,28 +19,44 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
   }
 
   try {
+    const htmlContent = await fetchWebPage(url);
+
+    // Clean up HTML to save tokens (remove large scripts/styles)
+    // Simple regex to remove script and style tags
+    const cleanedHtml = htmlContent
+      ? htmlContent.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gmi, "")
+        .replace(/<style\b[^>]*>([\s\S]*?)<\/style>/gmi, "")
+        .replace(/\s+/g, " ").substring(0, 100000) // Limit to ~100k chars for safety
+      : "Could not fetch live content. Please generate based on your existing knowledge of the site structure.";
+
     const prompt = `
       Task: Create a valid RSS 2.0 XML feed for the website: ${url}
       
+      Source Content:
+      Below is the raw HTML content fetched from the website. You MUST use this content to extract the articles.
+      
+      HTML START
+      ${cleanedHtml}
+      HTML END
+      
       Steps:
-      1. Use your knowledge and browsing capabilities to find the 5-10 most recent, real articles from this specific URL.
-      2. For each item, you MUST extract:
-         - Title: The clear, concise headline.
-         - Post URL: The direct, permanent link. CRITICAL: DO NOT hallucinate. Use the site's actual URL pattern. Ensure it starts with http/https and resides on the domain of ${url}.
-         - Publish Date: Original date (RFC-822).
-         - Content Snippet: A 2-3 sentence summary.
-         - Image URL: Find the highest quality representative image. PREFER meta tags like og:image, twitter:image, or the main article header image.
-      3. Generate the XML string.
+      1. Analyze the provided HTML to identify the distinct news articles or blog posts. Look for repeated patterns (cards, list items, <article> tags).
+      2. For each item found in the HTML, extract:
+         - Title: The text found in the headline element (h1, h2, h3).
+         - Post URL: The 'href' from the anchor tag linking to the full post. MUST be fully qualified (start with http). If the href is relative (e.g., /news/123), prepend the base URL (${url}).
+         - Publish Date: Try to find a date in <time> tags or meta data. If none, use the current date or a reasonable estimate based on the content.
+         - Content Snippet: The excerpt or summary text found in the card.
+         - Image URL: Extract the 'src' from the article's thumbnail image or 'srcset'.
       
       Strict Requirements:
-      - NO Hallucinated Links: I will verify these links. If you are not sure, do not include the item.
+      - NO Hallucinated Links: You must ONLY include items found in the HTML.
       - RSS Format: Root <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/">.
       - Item Tags: 
-        - <title>, <link>, <description> (the snippet).
-        - <pubDate> (RFC-822 format).
-        - <guid isPermaLink="true"> (the post URL).
-        - <enclosure url="..." type="image/jpeg" length="0" /> (The Image URL).
-        - <media:content url="..." medium="image" /> (The same Image URL for better compatibility).
+        - <title>, <link>, <description>
+        - <pubDate>
+        - <guid isPermaLink="true">
+        - <enclosure url="..." type="image/jpeg" length="0" />
+        - <media:content url="..." medium="image" />
       - XML Declaration: Exactly <?xml version="1.0" encoding="UTF-8"?>
       - ESCAPING: Ensure internal ampersands in URLs are &amp;
       - Output: RETURN ONLY THE XML. No markdown, no conversational text.
