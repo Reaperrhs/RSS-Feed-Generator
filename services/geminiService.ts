@@ -109,14 +109,43 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
     // Parse JSON
     let parsedData;
     try {
-      parsedData = JSON.parse(content);
-    } catch (e) {
-      // Fallback: try to find JSON block if strict mode failed
-      const jsonMatch = content.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        parsedData = JSON.parse(jsonMatch[0]);
-      } else {
-        throw new Error("Failed to parse AI response as JSON");
+      // Pre-process content to fix common JSON issues from LLMs
+      let cleanContent = content;
+
+      // 1. Remove markdown code blocks if present
+      const markdownMatch = content.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+      if (markdownMatch) {
+        cleanContent = markdownMatch[1];
+      }
+
+      // 2. Fix bad unicode escapes (e.g. \u00 which is invalid in some contexts or just malformed)
+      // This is a heuristic: match \u followed by non-hex digits or incomplete hex
+      // But more commonly, it's a single backslash that should be double escaped
+      cleanContent = cleanContent
+        // Escape unescaped backslashes that are NOT part of a valid escape sequence
+        // This is tricky, so we'll try a safer approach:
+        // Remove strictly invalid control characters first
+        // eslint-disable-next-line no-control-regex
+        .replace(/[\x00-\x1F\x7F]/g, "")
+        // Attempt to fix common "Bad Unicode escape" by double-escaping backslashes that precede 'u' but aren't followed by 4 hex digits
+        .replace(/\\u(?![0-9a-fA-F]{4})/g, "\\\\u");
+
+      parsedData = JSON.parse(cleanContent);
+    } catch (e: any) {
+      console.warn("JSON Parse Failed first attempt:", e.message);
+      // Fallback: try to find the first '{' and the last '}'
+      try {
+        const firstOpen = content.indexOf('{');
+        const lastClose = content.lastIndexOf('}');
+        if (firstOpen !== -1 && lastClose !== -1) {
+          const jsonSubstring = content.substring(firstOpen, lastClose + 1);
+          parsedData = JSON.parse(jsonSubstring);
+        } else {
+          throw e;
+        }
+      } catch (retryError) {
+        console.error("Critical JSON Parse Error:", retryError);
+        throw new Error(`Failed to parse AI response: ${e.message}. Raw: ${content.substring(0, 100)}...`);
       }
     }
 
