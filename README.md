@@ -18,3 +18,13 @@ View your app in AI Studio: https://ai.studio/apps/drive/1DPOb3eb4GHAuydFj-iBjjM
 2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
 3. Run the app:
    `npm run dev`
+
+## Deploy with Coolify
+
+This app is ready for deployment on Coolify as a Docker container.
+
+1.  **Source**: Link your GitHub repository.
+2.  **Environment Variables**:
+    *   Add `GEMINI_API_KEY` as a **Build Variable**.
+3.  **Port**: Set the target port to `80`.
+4.  **Build**: Coolify will automatically detect the `Dockerfile` and build the application.
