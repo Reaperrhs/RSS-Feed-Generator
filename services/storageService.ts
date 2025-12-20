@@ -91,20 +91,41 @@ export const parseXMLToFeed = (xml: string): any => {
 
     // 2. Fallback: Check for Media RSS (with and without namespaces)
     if (!imageUrl) {
-      const mediaContents = node.getElementsByTagName("media:content") || node.getElementsByTagNameNS("http://search.yahoo.com/mrss/", "content");
-      const mediaThumbnails = node.getElementsByTagName("media:thumbnail") || node.getElementsByTagNameNS("http://search.yahoo.com/mrss/", "thumbnail");
+      // Try to find media tags explicitly by name if getElementsByTagNameNS is finicky or namespaced differently
+      const mediaTags = ['media:content', 'media:thumbnail', 'content', 'thumbnail'];
+      for (const tagName of mediaTags) {
+        const elements = node.getElementsByTagName(tagName);
+        if (elements.length > 0) {
+          const url = elements[0].getAttribute("url");
+          if (url) {
+            imageUrl = decodeEntities(url);
+            break;
+          }
+        }
+      }
 
-      if (mediaContents.length > 0) {
-        imageUrl = decodeEntities(mediaContents[0].getAttribute("url") || "");
-      } else if (mediaThumbnails.length > 0) {
-        imageUrl = decodeEntities(mediaThumbnails[0].getAttribute("url") || "");
+      // Also try with namespace if above fails
+      if (!imageUrl) {
+        const mediaNamespace = "http://search.yahoo.com/mrss/";
+        const contentByNS = node.getElementsByTagNameNS(mediaNamespace, "content");
+        if (contentByNS.length > 0) {
+          imageUrl = decodeEntities(contentByNS[0].getAttribute("url") || "");
+        } else {
+          const thumbByNS = node.getElementsByTagNameNS(mediaNamespace, "thumbnail");
+          if (thumbByNS.length > 0) {
+            imageUrl = decodeEntities(thumbByNS[0].getAttribute("url") || "");
+          }
+        }
       }
     }
 
-    // 3. Fallback: Check for image in description (some feeds embed it there)
+    // 3. Fallback: Check for image in description or content:encoded
     if (!imageUrl) {
       const description = node.querySelector("description")?.textContent || "";
-      const imgMatch = description.match(/<img[^>]+src=["']([^"']+)["']/i);
+      const contentEncoded = node.getElementsByTagName("content:encoded")[0]?.textContent || "";
+      const combinedContent = description + contentEncoded;
+
+      const imgMatch = combinedContent.match(/<img[^>]+src=["']([^"']+)["']/i);
       if (imgMatch) {
         imageUrl = decodeEntities(imgMatch[1]);
       }

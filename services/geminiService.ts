@@ -9,19 +9,24 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
       Task: Create a valid RSS 2.0 XML feed for the website: ${url}
       
       Steps:
-      1. Use your knowledge to find the 5-10 most recent, real articles from this specific URL.
+      1. Use your knowledge and browsing capabilities to find the 5-10 most recent, real articles from this specific URL.
       2. For each item, you MUST extract:
          - Title: The clear, concise headline.
-         - Post URL: The direct, permanent link. DO NOT hallucinate. Use the site's standard URL pattern (e.g., /news/article-name). Ensure it starts with http/https.
+         - Post URL: The direct, permanent link. CRITICAL: DO NOT hallucinate. Use the site's actual URL pattern. Ensure it starts with http/https and resides on the domain of ${url}.
          - Publish Date: Original date (RFC-822).
          - Content Snippet: A 2-3 sentence summary.
-         - Image URL: Find the highest quality representative image (check meta tags like og:image if possible).
+         - Image URL: Find the highest quality representative image. PREFER meta tags like og:image, twitter:image, or the main article header image.
       3. Generate the XML string.
       
       Strict Requirements:
-      - NO Hallucinated Links: You must be 100% certain the URLs you provide match the site's actual structure. Avoid long query strings unless necessary.
-      - RSS Format: Root <rss version="2.0">, <channel> with metadata.
-      - Item Tags: <title>, <link>, <description> (snippet), <pubDate>, and <enclosure url="..." type="image/jpeg" length="0" /> for the Image URL.
+      - NO Hallucinated Links: I will verify these links. If you are not sure, do not include the item.
+      - RSS Format: Root <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/">.
+      - Item Tags: 
+        - <title>, <link>, <description> (the snippet).
+        - <pubDate> (RFC-822 format).
+        - <guid isPermaLink="true"> (the post URL).
+        - <enclosure url="..." type="image/jpeg" length="0" /> (The Image URL).
+        - <media:content url="..." medium="image" /> (The same Image URL for better compatibility).
       - XML Declaration: Exactly <?xml version="1.0" encoding="UTF-8"?>
       - ESCAPING: Ensure internal ampersands in URLs are &amp;
       - Output: RETURN ONLY THE XML. No markdown, no conversational text.
