@@ -1,0 +1,5 @@
+{
+  "name": "Smart RSS Generator",
+  "description": "Generate RSS feeds for any website using AI-powered search and content analysis.",
+  "requestFramePermissions": []
+}
