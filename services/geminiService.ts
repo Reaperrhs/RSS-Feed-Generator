@@ -12,6 +12,20 @@ const fetchWebPage = async (url: string): Promise<string> => {
   }
 };
 
+// Helper to escape XML characters
+const escapeXml = (unsafe: string): string => {
+  return unsafe.replace(/[<>&'"]/g, (c) => {
+    switch (c) {
+      case '<': return '&lt;';
+      case '>': return '&gt;';
+      case '&': return '&amp;';
+      case '\'': return '&apos;';
+      case '"': return '&quot;';
+      default: return c;
+    }
+  });
+};
+
 export const generateRSSFromURL = async (url: string): Promise<string> => {
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
@@ -21,45 +35,41 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
   try {
     const htmlContent = await fetchWebPage(url);
 
-    // Clean up HTML to save tokens (remove large scripts/styles)
-    // Simple regex to remove script and style tags
+    // Clean up HTML to save tokens
     const cleanedHtml = htmlContent
       ? htmlContent.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gmi, "")
         .replace(/<style\b[^>]*>([\s\S]*?)<\/style>/gmi, "")
-        .replace(/\s+/g, " ").substring(0, 100000) // Limit to ~100k chars for safety
-      : "Could not fetch live content. Please generate based on your existing knowledge of the site structure.";
+        .replace(/\s+/g, " ").substring(0, 100000)
+      : "Could not fetch live content. Generate based on knowledge.";
 
     const prompt = `
-      Task: Create a valid RSS 2.0 XML feed for the website: ${url}
+      Task: Analyze the provided HTML and extract news articles/posts into a strict JSON format.
       
-      Source Content:
-      Below is the raw HTML content fetched from the website. You MUST use this content to extract the articles.
+      Target Website: ${url}
       
-      HTML START
+      HTML Content:
       ${cleanedHtml}
-      HTML END
       
-      Steps:
-      1. Analyze the provided HTML to identify the distinct news articles or blog posts. Look for repeated patterns (cards, list items, <article> tags).
-      2. For each item found in the HTML, extract:
-         - Title: The text found in the headline element (h1, h2, h3).
-         - Post URL: The 'href' from the anchor tag linking to the full post. MUST be fully qualified (start with http). If the href is relative (e.g., /news/123), prepend the base URL (${url}).
-         - Publish Date: Try to find a date in <time> tags or meta data. If none, use the current date or a reasonable estimate based on the content.
-         - Content Snippet: The excerpt or summary text found in the card.
-         - Image URL: Extract the 'src' from the article's thumbnail image or 'srcset'.
+      Output Format:
+      Return ONLY a JSON object with this schema:
+      {
+        "title": "Site Title",
+        "description": "Site Description",
+        "items": [
+          {
+            "title": "Article Title",
+            "link": "URL (absolute or relative)",
+            "description": "Short summary",
+            "pubDate": "Date string",
+            "image": "Image URL (optional)"
+          }
+        ]
+      }
       
-      Strict Requirements:
-      - NO Hallucinated Links: You must ONLY include items found in the HTML.
-      - RSS Format: Root <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/">.
-      - Item Tags: 
-        - <title>, <link>, <description>
-        - <pubDate>
-        - <guid isPermaLink="true">
-        - <enclosure url="..." type="image/jpeg" length="0" />
-        - <media:content url="..." medium="image" />
-      - XML Declaration: Exactly <?xml version="1.0" encoding="UTF-8"?>
-      - ESCAPING: Ensure internal ampersands in URLs are &amp;
-      - Output: RETURN ONLY THE XML. No markdown, no conversational text.
+      Requirements:
+      1. Extract REAL items from the HTML. Do not hallucinate.
+      2. If a link is relative (e.g., "/news/123"), keep it relative. The system will handle normalization.
+      3. For images, look in <img> 'src' or 'data-src', or use the first image in the card.
     `;
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -74,7 +84,8 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
         "model": "google/gemini-2.0-flash-001",
         "messages": [
           { "role": "user", "content": prompt }
-        ]
+        ],
+        "response_format": { "type": "json_object" }
       })
     });
 
@@ -84,56 +95,73 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
     }
 
     const data = await response.json();
-    let text = data.choices[0]?.message?.content || "";
+    const content = data.choices[0]?.message?.content || "";
 
-    console.log("OpenRouter Response:", text);
+    console.log("Raw AI Response:", content);
 
-    // 1. Try to extract from markdown code blocks first
-    const markdownMatch = text.match(/```(?:xml)?\s*([\s\S]*?)\s*```/);
-    if (markdownMatch) {
-      text = markdownMatch[1];
-    }
-
-    // 2. Find the index of the XML declaration or RSS root tag
-    const xmlDeclIndex = text.indexOf('<?xml');
-    const rssTagIndex = text.indexOf('<rss');
-
-    let startIndex = -1;
-    if (xmlDeclIndex !== -1) {
-      startIndex = xmlDeclIndex;
-    } else if (rssTagIndex !== -1) {
-      if (xmlDeclIndex === -1 || rssTagIndex < xmlDeclIndex) {
-        startIndex = rssTagIndex;
+    // Parse JSON
+    let parsedData;
+    try {
+      parsedData = JSON.parse(content);
+    } catch (e) {
+      // Fallback: try to find JSON block if strict mode failed
+      const jsonMatch = content.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        parsedData = JSON.parse(jsonMatch[0]);
+      } else {
+        throw new Error("Failed to parse AI response as JSON");
       }
     }
 
-    if (startIndex !== -1) {
-      text = text.substring(startIndex);
-    } else {
-      if (text.length < 50 && (text.toLowerCase().includes("cannot") || text.toLowerCase().includes("sorry"))) {
-        throw new Error("The AI could not generate a feed for this URL. It might be inaccessible or lack recent content.");
+    // Generate XML with URL Normalization
+    const rssItems = parsedData.items.map((item: any) => {
+      // Normalize Link
+      let finalLink = item.link;
+      try {
+        finalLink = new URL(item.link, url).href;
+      } catch (e) {
+        console.warn(`Failed to normalize link: ${item.link}`, e);
       }
-    }
 
-    // 3. Trim trailing content after the closing tag
-    const closingTagIndex = text.lastIndexOf('</rss>');
-    if (closingTagIndex !== -1) {
-      text = text.substring(0, closingTagIndex + 6);
-    }
+      // Normalize Image
+      let finalImage = item.image;
+      if (finalImage) {
+        try {
+          finalImage = new URL(finalImage, url).href;
+        } catch (e) { console.warn(`Failed to normalize image: ${item.image}`); }
+      }
 
-    // 4. Sanitize unescaped ampersands in URLs (Common issue with AI)
-    // This looks for & character that is NOT part of an existing entity like &amp;
-    text = text.replace(/&(?!(?:amp|lt|gt|quot|apos);)/g, '&amp;');
+      const imgTag = finalImage
+        ? `<enclosure url="${escapeXml(finalImage)}" type="image/jpeg" length="0" />
+           <media:content url="${escapeXml(finalImage)}" medium="image" />`
+        : '';
 
-    // 5. Force XML version to 1.0 if AI produces 2.0 (Common LLM hallucination)
-    text = text.replace(/<\?xml\s+version=["']2\.0["']/, '<?xml version="1.0"');
+      return `
+        <item>
+          <title>${escapeXml(item.title || 'No Title')}</title>
+          <link>${escapeXml(finalLink)}</link>
+          <guid isPermaLink="true">${escapeXml(finalLink)}</guid>
+          <description>${escapeXml(item.description || '')}</description>
+          <pubDate>${escapeXml(item.pubDate || new Date().toUTCString())}</pubDate>
+          ${imgTag}
+        </item>
+      `;
+    }).join('');
 
-    return text.trim();
+    const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>${escapeXml(parsedData.title || 'Generated Feed')}</title>
+    <link>${escapeXml(url)}</link>
+    <description>${escapeXml(parsedData.description || 'RSS feed generated by AI')}</description>
+    ${rssItems}
+  </channel>
+</rss>`;
+
+    return rssXml;
+
   } catch (error: any) {
     console.error("OpenRouter API Error:", error);
-    if (error.message.includes("AI could not generate")) {
-      throw error;
-    }
-    throw new Error(error.message || "Failed to generate RSS feed. The AI response was not valid XML.");
+    throw new Error(error.message || "Failed to generate RSS feed.");
   }
 };
