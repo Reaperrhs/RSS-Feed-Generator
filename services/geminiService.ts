@@ -9,24 +9,22 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
       Task: Create a valid RSS 2.0 XML feed for the website: ${url}
       
       Steps:
-      1. Use your knowledge or simulated search to find the 5-10 most recent articles, blog posts, or news items from this specific URL.
+      1. Use your knowledge to find the 5-10 most recent, real articles from this specific URL.
       2. For each item, you MUST extract:
-         - Title: The clear, concise headline of the post.
-         - Post URL: The direct, permanent link to the full article.
-         - Publish Date: The original date/time the post was published (RFC-822 format).
-         - Content Snippet: A meaningful 2-3 sentence summary or excerpt from the start of the article.
-         - Image URL: A high-quality representative image or thumbnail for the post.
+         - Title: The clear, concise headline.
+         - Post URL: The direct, permanent link. DO NOT hallucinate. Use the site's standard URL pattern (e.g., /news/article-name). Ensure it starts with http/https.
+         - Publish Date: Original date (RFC-822).
+         - Content Snippet: A 2-3 sentence summary.
+         - Image URL: Find the highest quality representative image (check meta tags like og:image if possible).
       3. Generate the XML string.
       
-      Requirements:
-      - Start with exactly: <?xml version="1.0" encoding="UTF-8"?>
-      - Root element must be <rss version="2.0">.
-      - Contain a <channel> with title, link, description.
-      - Each <item> MUST include: <title>, <link>, <description> (the content snippet), <pubDate> (RFC-822), and <enclosure url="..." type="image/jpeg" length="0" /> for the Image URL.
-      - Ensure all URLs in <link> and <enclosure url="..."> tags are valid.
-      - STRICTLY RETURN ONLY THE XML STRING.
-      - Do not include markdown formatting (like \`\`\`xml).
-      - Do not include any conversational text before or after the XML.
+      Strict Requirements:
+      - NO Hallucinated Links: You must be 100% certain the URLs you provide match the site's actual structure. Avoid long query strings unless necessary.
+      - RSS Format: Root <rss version="2.0">, <channel> with metadata.
+      - Item Tags: <title>, <link>, <description> (snippet), <pubDate>, and <enclosure url="..." type="image/jpeg" length="0" /> for the Image URL.
+      - XML Declaration: Exactly <?xml version="1.0" encoding="UTF-8"?>
+      - ESCAPING: Ensure internal ampersands in URLs are &amp;
+      - Output: RETURN ONLY THE XML. No markdown, no conversational text.
     `;
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {

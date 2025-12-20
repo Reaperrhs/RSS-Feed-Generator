@@ -79,29 +79,40 @@ export const parseXMLToFeed = (xml: string): any => {
 
   const itemNodes = xmlDoc.querySelectorAll("item");
   itemNodes.forEach(node => {
-    const enclosures = node.getElementsByTagName("enclosure");
     let imageUrl = undefined;
 
-    // Check for enclosure (standard RSS image)
+    // 1. Check for enclosure (standard RSS image)
+    const enclosures = node.getElementsByTagName("enclosure");
     if (enclosures.length > 0) {
       const enc = enclosures[0];
-      const type = enc.getAttribute("type");
       const url = enc.getAttribute("url");
+      if (url) imageUrl = decodeEntities(url);
+    }
 
-      if (url && ((type && type.startsWith("image")) || !type || url.includes(".jpg") || url.includes(".png") || url.includes(".jpeg"))) {
-        imageUrl = decodeEntities(url);
+    // 2. Fallback: Check for Media RSS (with and without namespaces)
+    if (!imageUrl) {
+      const mediaContents = node.getElementsByTagName("media:content") || node.getElementsByTagNameNS("http://search.yahoo.com/mrss/", "content");
+      const mediaThumbnails = node.getElementsByTagName("media:thumbnail") || node.getElementsByTagNameNS("http://search.yahoo.com/mrss/", "thumbnail");
+
+      if (mediaContents.length > 0) {
+        imageUrl = decodeEntities(mediaContents[0].getAttribute("url") || "");
+      } else if (mediaThumbnails.length > 0) {
+        imageUrl = decodeEntities(mediaThumbnails[0].getAttribute("url") || "");
       }
     }
 
-    // Fallback: Check for Media RSS
+    // 3. Fallback: Check for image in description (some feeds embed it there)
     if (!imageUrl) {
-      const mediaContents = node.getElementsByTagNameNS("http://search.yahoo.com/mrss/", "content");
-      if (mediaContents.length > 0) imageUrl = decodeEntities(mediaContents[0].getAttribute("url") || "");
+      const description = node.querySelector("description")?.textContent || "";
+      const imgMatch = description.match(/<img[^>]+src=["']([^"']+)["']/i);
+      if (imgMatch) {
+        imageUrl = decodeEntities(imgMatch[1]);
+      }
     }
 
     const item = {
       title: decodeEntities(node.querySelector("title")?.textContent || "No Title"),
-      link: decodeEntities(node.querySelector("link")?.textContent || "#"),
+      link: decodeEntities(node.querySelector("link")?.textContent || "#").trim(),
       description: decodeEntities(node.querySelector("description")?.textContent || ""),
       pubDate: decodeEntities(node.querySelector("pubDate")?.textContent || ""),
       guid: decodeEntities(node.querySelector("guid")?.textContent || ""),
