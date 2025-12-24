@@ -8,6 +8,14 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 3000,
       host: '0.0.0.0',
+      proxy: {
+        '/crawl_proxy': {
+          target: 'https://crawl4ai.onekindpromo.com',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/crawl_proxy/, '/crawl'),
+          secure: false
+        }
+      }
     },
     plugins: [react()],
     define: {

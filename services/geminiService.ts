@@ -1,14 +1,77 @@
-const fetchWebPage = async (url: string): Promise<string> => {
+const fetchWebPage = async (url: string, tryFeedFallback = false): Promise<string> => {
+  // Helper for AllOrigins fallback
+  const fetchViaAllOrigins = async (targetUrl: string): Promise<string> => {
+    try {
+      // Use the 'get' endpoint which returns a JSON wrapper.
+      // This is often more reliable for bypassing certain blocks as the response is buffered.
+      const aoUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+      const response = await fetch(aoUrl);
+      if (response.ok) {
+        const data = await response.json();
+        return data.contents || "";
+      }
+    } catch (e) {
+      console.warn("AllOrigins fallback failed for:", targetUrl);
+    }
+    return "";
+  };
+
   try {
-    // using allorigins as a free CORS proxy
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
-    const response = await fetch(proxyUrl);
-    if (!response.ok) throw new Error("Failed to fetch page content");
+    // using self-hosted Crawl4AI for web scraping via local proxy to bypass CORS
+    const response = await fetch("/crawl_proxy", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        urls: [url],
+        crawler_params: {
+          headless: true,
+          magic_mode: true,
+          user_agent_mode: "random"
+        }
+      })
+    });
+
+    if (!response.ok) throw new Error("Failed to fetch page content from Crawl4AI");
+
     const data = await response.json();
-    return data.contents;
+
+    // Crawl4AI returns results in an array for the 'results' key
+    if (data.results && data.results.length > 0) {
+      const result = data.results[0];
+
+      // Explicitly check for Cloudflare or other bot challenges
+      if (result.status_code === 307 || result.status_code === 403 || (result.html && result.html.includes("Just a moment..."))) {
+        console.warn("Crawl4AI hit a bot wall (Cloudflare). Attempting AllOrigins fallback...");
+
+        if (tryFeedFallback) {
+          // Strategy: Try standard RSS feed locations first as they are often unprotected
+          const baseUrl = new URL(url).origin;
+          const feedPaths = ["/feed", "/rss", "/rss.xml"];
+
+          for (const path of feedPaths) {
+            const feedUrl = baseUrl + path;
+            const feedContent = await fetchViaAllOrigins(feedUrl);
+            if (feedContent && feedContent.length > 500) {
+              console.log("Successfully retrieved feed content via AllOrigins:", feedUrl);
+              return feedContent;
+            }
+          }
+        }
+
+        // If no feed found, try the original page via AllOrigins as a last resort
+        return await fetchViaAllOrigins(url);
+      }
+
+      // Prefer cleaned_html as the prompt is optimized for HTML tags
+      return result.cleaned_html || result.html || "";
+    }
+
+    return "";
   } catch (error) {
-    console.warn("Proxy fetch failed, falling back to direct knowledge:", error);
-    return ""; // Fallback to empty string to let AI use knowledge if fetch fails
+    console.warn("Crawl4AI fetch failed, falling back to AllOrigins/direct knowledge:", error);
+    return await fetchViaAllOrigins(url);
   }
 };
 
@@ -37,7 +100,8 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
   }
 
   try {
-    const htmlContent = await fetchWebPage(url);
+    // tryFeedFallback = true for the main page to find RSS feeds as a bypass
+    const htmlContent = await fetchWebPage(url, true);
 
     // Clean up HTML to save tokens
     const cleanedHtml = htmlContent
@@ -71,16 +135,18 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
       }
       
       Requirements:
-      1. Extract REAL items from the HTML. Do not hallucinate.
+      1. Extract REAL items from the HTML. Do NOT use your internal knowledge about the site (e.g., old 2023 articles). If the HTML is empty or blocked, return an empty items list.
       2. If a link is relative (e.g., "/news/123"), keep it relative. The system will handle normalization.
       3. For "description": 
          - Search for an excerpt/summary. 
-         - **CRITICAL:** If NO summary is found in the HTML, you MUST GENERATE a short, engaging 1-sentence summary based on the article title. Do NOT leave it empty.
+         - **CRITICAL:** If NO summary is found in the HTML, you MUST GENERATE a short, engaging 1-sentence summary based on the article title.
       4. For images:
-         - Look for <img> tags. Check 'src', 'data-src', 'data-lazy-src', and 'srcset'.
-         - Look for images inside <a class="thumbnail-link"> or with class "wp-post-image".
+         - **STRICT CHECK:** Look for <img> tags. Check 'src', 'data-src', 'lazy-src', and 'srcset'.
+         - Look for images in Elementor layouts (.elementor-post__thumbnail img) or WordPress thumbnails (.wp-post-image).
+         - Also check if images are hosted on subdomains like 'media.example.com'.
          - If 'srcset' is present, extract the URL for the largest version.
-         - Do NOT use 1x1 pixels or placeholder images.
+        - Do NOT use 1x1 pixels, avatars, logos, icons, or placeholder images.
+        - **IMPORTANT:** If the article has a featured image (often high in the HTML, with classes like 'wp-post-image' or in 'og:image' meta tag), prefer that.
     `;
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -167,25 +233,67 @@ export const generateRSSFromURL = async (url: string): Promise<string> => {
       }
 
       let finalImage = item.image;
+
+      // If the AI returned a logo/icon/avatar, treat it as "no image" to trigger deep extraction
+      const isLogo = (src: string) => {
+        const lower = src.toLowerCase();
+        return lower.includes("logo") || lower.includes("icon") || lower.includes("avatar") ||
+          lower.includes("placeholder") || lower.includes("tr?id=");
+      };
+
+      if (finalImage && isLogo(finalImage)) {
+        console.log(`AI extracted a logo-like image (${finalImage}), clearing to trigger deep extraction.`);
+        finalImage = null;
+      }
+
       if (finalImage) {
         try {
           finalImage = new URL(finalImage, url).href;
         } catch (e) { console.warn(`Failed to normalize image: ${item.image}`); }
-      } else if (finalLink && !item.image) {
+      }
+
+      if (finalLink && !finalImage) {
         // Deep Extraction: Fetch article page to find image
+        // tryFeedFallback = false here as we only want the article HTML
         try {
           console.log(`Deep extracting image for: ${finalLink}`);
-          const articleHtml = await fetchWebPage(finalLink);
+          const articleHtml = await fetchWebPage(finalLink, false);
           if (articleHtml) {
-            // 1. Check Open Graph image
-            const ogMatch = articleHtml.match(/<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/i);
-            if (ogMatch) {
-              finalImage = ogMatch[1];
-            } else {
-              // 2. Check first significant image
-              const imgMatch = articleHtml.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
-              if (imgMatch) {
-                finalImage = imgMatch[1];
+            // Priority list for images
+            // 1. OG Image (Open Graph)
+            // 2. Twitter Image
+            // 3. Itemprop image
+            // 4. Featured Image classes (wp-post-image, etc)
+            // 5. First significant image
+
+            const ogMatch = articleHtml.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i);
+            const twitterMatch = articleHtml.match(/<meta[^>]*name=["'](?:twitter:image|twitter:image:src)["'][^>]*content=["']([^"']+)["']/i);
+            const itempropMatch = articleHtml.match(/<(?:meta|link)[^>]*itemprop=["'](?:image|thumbnailUrl)["'][^>]*content=["']([^"']+)["']/i);
+            const featuredMatch = articleHtml.match(/class=["'][^"']*(?:wp-post-image|featured-image|entry-thumb|post-thumbnail|attachment-)[^"']*["'][^>]*src=["']([^"']+)["']/i);
+
+            // Priority: Featured classes > Twitter > OG > Itemprop
+            // But also filter out logos and common tracking images
+            const candidates = [
+              featuredMatch?.[1],
+              twitterMatch?.[1],
+              ogMatch?.[1],
+              itempropMatch?.[1]
+            ].filter(src => src && !src.toLowerCase().includes("logo") && !src.toLowerCase().includes("icon") && !src.toLowerCase().includes("avatar") && !src.toLowerCase().includes("tr?id="));
+
+            finalImage = candidates[0];
+
+            if (!finalImage) {
+              // Fallback to OG even if it has logo if nothing else found? 
+              // Better to have no image than a generic logo for an article.
+              // But let's check first significant image
+              const imgRegex = /<img[^>]+src=["']([^"']+)["'][^>]*>/gi;
+              let m;
+              while ((m = imgRegex.exec(articleHtml)) !== null) {
+                const src = m[1];
+                if (!src.includes("logo") && !src.includes("icon") && !src.includes("avatar") && !src.includes("/ad/")) {
+                  finalImage = src;
+                  break;
+                }
               }
             }
             // Normalize found image
