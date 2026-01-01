@@ -219,8 +219,17 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
                   setErrorMessage('');
                 }}
               />
-              <p className="text-xs text-slate-500 mt-1">
-                The domain assigned to your function in Appwrite (Settings &gt; Domains).
+              <p className="text-xs text-slate-500 mt-1 flex justify-between items-center">
+                <span>The domain assigned to your function.</span>
+                {!config.functionDomain && config.projectId && (
+                  <button
+                    type="button"
+                    className="text-primary hover:underline hover:text-primary/80"
+                    onClick={() => setConfig({ ...config, functionDomain: `rss-generator.${config.projectId}.appwrite.global` })}
+                  >
+                    Use Default
+                  </button>
+                )}
               </p>
             </div>
 
