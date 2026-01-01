@@ -23,12 +23,15 @@ export interface SavedFeed {
   parsedChannel: FeedChannel;
   publicUrl?: string; // URL from Appwrite
   fileId?: string; // Appwrite File ID
+  type: 'static' | 'dynamic'; // Feed generation mode
 }
 
 export interface AppwriteConfig {
   endpoint: string;
   projectId: string;
   bucketId: string;
+  functionId?: string;
+  functionDomain?: string;
 }
 
 export enum AppView {

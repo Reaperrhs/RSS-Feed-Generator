@@ -53,18 +53,18 @@ export const Dashboard: React.FC<DashboardProps> = ({ feeds, onCreateNew, onSele
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {feeds.map((feed) => (
-          <div 
-            key={feed.id} 
+          <div
+            key={feed.id}
             onClick={() => onSelectFeed(feed)}
             className="group bg-card border border-slate-700 hover:border-primary/50 rounded-xl p-6 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-               <button 
+              <button
                 onClick={(e) => handleDelete(e, feed.id)}
                 className="text-slate-500 hover:text-red-500 transition-colors p-2 rounded-full hover:bg-slate-800"
-               >
-                 <Trash2 className="w-4 h-4" />
-               </button>
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
             </div>
 
             <div className="flex items-start justify-between mb-4">
@@ -72,19 +72,30 @@ export const Dashboard: React.FC<DashboardProps> = ({ feeds, onCreateNew, onSele
                 <Rss className="w-6 h-6" />
               </div>
             </div>
-            
-            <h3 className="text-lg font-bold text-white mb-2 line-clamp-1">{feed.parsedChannel.title}</h3>
+
+            <h3 className="text-lg font-bold text-white mb-1 line-clamp-1">{feed.parsedChannel.title}</h3>
+
+            <a
+              href={feed.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="text-xs text-primary mb-3 block hover:underline truncate"
+            >
+              {feed.url}
+            </a>
+
             <p className="text-slate-400 text-sm mb-4 line-clamp-2 h-10">
               {feed.parsedChannel.description || 'No description available.'}
             </p>
 
             <div className="flex items-center justify-between pt-4 border-t border-slate-700/50">
-               <span className="text-xs text-slate-500">
-                 {feed.parsedChannel.items.length} items
-               </span>
-               <div className="flex items-center text-xs font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                 View Feed <ExternalLink className="w-3 h-3 ml-1" />
-               </div>
+              <span className="text-xs text-slate-500">
+                {feed.parsedChannel.items.length} items
+              </span>
+              <div className="flex items-center text-xs font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                View Feed <ExternalLink className="w-3 h-3 ml-1" />
+              </div>
             </div>
           </div>
         ))}

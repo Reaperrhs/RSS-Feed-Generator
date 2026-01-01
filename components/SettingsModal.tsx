@@ -14,7 +14,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
   const [config, setConfig] = useState<AppwriteConfig>({
     endpoint: '',
     projectId: '',
-    bucketId: ''
+    bucketId: '',
+    functionId: '',
+    functionDomain: ''
   });
   const [status, setStatus] = useState<'idle' | 'testing' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -58,7 +60,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
     const cleanConfig = {
       endpoint: config.endpoint.trim(),
       projectId: config.projectId.trim(),
-      bucketId: config.bucketId.trim()
+      bucketId: config.bucketId.trim(),
+      functionId: config.functionId?.trim()
     };
 
     const result = await validateConnection(cleanConfig);
@@ -84,7 +87,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
     const cleanConfig = {
       endpoint: config.endpoint.trim(),
       projectId: config.projectId.trim(),
-      bucketId: config.bucketId.trim()
+      bucketId: config.bucketId.trim(),
+      functionId: config.functionId?.trim(),
+      functionDomain: config.functionDomain?.trim()
     };
 
     saveAppwriteConfig(cleanConfig);
@@ -97,7 +102,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
 
   const handleClear = () => {
     clearAppwriteConfig();
-    setConfig({ endpoint: '', projectId: '', bucketId: '' });
+    setConfig({ endpoint: '', projectId: '', bucketId: '', functionId: '', functionDomain: '' });
     setStatus('idle');
     setErrorMessage('');
     onClose();
@@ -180,6 +185,42 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
               />
               <p className="text-xs text-slate-500 mt-1">
                 Ensure this bucket has <strong>Public (Any)</strong> read permissions.
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-1">Function ID (Optional for Static, Required for Dynamic)</label>
+              <input
+                type="text"
+                placeholder="e.g. rss-generator"
+                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-secondary focus:border-transparent"
+                value={config.functionId || ''}
+                onChange={e => {
+                  setConfig({ ...config, functionId: e.target.value });
+                  setStatus('idle');
+                  setErrorMessage('');
+                }}
+              />
+              <p className="text-xs text-slate-500 mt-1">
+                Deploy the backend function to enable auto-updating feeds.
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-1">Function Domain (Required for GET access)</label>
+              <input
+                type="text"
+                placeholder="e.g. rss-generator.appwrite.global"
+                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-secondary focus:border-transparent"
+                value={config.functionDomain || ''}
+                onChange={e => {
+                  setConfig({ ...config, functionDomain: e.target.value });
+                  setStatus('idle');
+                  setErrorMessage('');
+                }}
+              />
+              <p className="text-xs text-slate-500 mt-1">
+                The domain assigned to your function in Appwrite (Settings &gt; Domains).
               </p>
             </div>
 

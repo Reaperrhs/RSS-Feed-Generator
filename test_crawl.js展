@@ -1,0 +1,54 @@
+
+// Mocking common utilities needed for the test
+const fetchViaAllOrigins = async (targetUrl) => {
+    const aoUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+    const response = await fetch(aoUrl);
+    const data = await response.json();
+    return data.contents || "";
+};
+
+async function verifyFix() {
+    const finalLink = "https://smallbiztrends.com/social-media-schedule-template/";
+    console.log(`Verifying deep extraction for: ${finalLink}`);
+    
+    try {
+        const articleHtml = await fetchViaAllOrigins(finalLink);
+        if (articleHtml) {
+            console.log("HTML retrieved successfully (length:", articleHtml.length, ")");
+            
+            const ogMatch = articleHtml.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i);
+            const twitterMatch = articleHtml.match(/<meta[^>]*name=["'](?:twitter:image|twitter:image:src)["'][^>]*content=["']([^"']+)["']/i);
+            const itempropMatch = articleHtml.match(/<(?:meta|link)[^>]*itemprop=["'](?:image|thumbnailUrl)["'][^>]*content=["']([^"']+)["']/i);
+            const featuredMatch = articleHtml.match(/class=["'][^"']*(?:wp-post-image|featured-image|entry-thumb|post-thumbnail|attachment-)[^"']*["'][^>]*src=["']([^"']+)["']/i);
+
+            const candidates = [
+              featuredMatch?.[1],
+              twitterMatch?.[1],
+              ogMatch?.[1],
+              itempropMatch?.[1]
+            ].filter(src => src && !src.toLowerCase().includes("logo") && !src.toLowerCase().includes("icon") && !src.toLowerCase().includes("avatar") && !src.toLowerCase().includes("tr?id="));
+
+            const finalImage = candidates[0];
+            
+            console.log("OG Match:", ogMatch?.[1] || "None");
+            console.log("Twitter Match:", twitterMatch?.[1] || "None");
+            console.log("Itemprop Match:", itempropMatch?.[1] || "None");
+            console.log("Featured Match:", featuredMatch?.[1] || "None");
+            console.log("Candidates after filtering:", candidates);
+            
+            console.log("\nRESULT: Found image:", finalImage);
+            
+            if (finalImage && finalImage.includes("key-takeaways")) {
+                console.log("SUCCESS! Correct article image identified.");
+            } else {
+                console.log("FAILURE: Still getting logo or nothing.");
+            }
+        } else {
+            console.log("FAILURE: Could not retrieve HTML even with AllOrigins API.");
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+verifyFix();

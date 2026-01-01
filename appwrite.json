@@ -1,0 +1,26 @@
+{
+    "projectId": "69460b6d001086d86316",
+    "projectName": "Smart RSS",
+    "functions": [
+        {
+            "$id": "rss-generator",
+            "name": "RSS Generator",
+            "runtime": "node-16.0",
+            "path": "functions/rss-generator",
+            "entrypoint": "src/main.js",
+            "ignore": [
+                "node_modules",
+                ".npm"
+            ],
+            "execute": [
+                "any"
+            ],
+            "events": [],
+            "schedule": "",
+            "timeout": 15,
+            "variables": {
+                "OPENROUTER_API_KEY": ""
+            }
+        }
+    ]
+}

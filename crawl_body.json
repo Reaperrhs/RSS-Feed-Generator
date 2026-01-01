@@ -1,0 +1,6 @@
+{
+    "urls": "https://techcrunch.com",
+    "crawler_params": {
+        "headless": true
+    }
+}

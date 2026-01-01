@@ -1,0 +1,9 @@
+Initial item from AI: {
+  title: 'Social Media Schedule Template',
+  link: 'https://smallbiztrends.com/social-media-schedule-template/',
+  image: 'https://smallbiztrends.com/wp-content/themes/sahifa/images/logo-full.jpg'
+}
+Detected logo: https://smallbiztrends.com/wp-content/themes/sahifa/images/logo-full.jpg. Clearing to trigger deep extraction.
+Deep extraction would trigger now...
+Final Image after logic: https://media.smallbiztrends.com/2025/12/0qjgY1sQ-key-takeaways.jpg
+SUCCESS! The system correctly replaced the logo with the featured image.

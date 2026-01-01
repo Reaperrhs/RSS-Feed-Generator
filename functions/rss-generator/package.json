@@ -1,0 +1,13 @@
+{
+    "name": "rss-generator",
+    "version": "1.0.0",
+    "description": "Dynamic RSS Feed Generator",
+    "main": "src/main.js",
+    "type": "module",
+    "dependencies": {
+        "node-appwrite": "^13.0.0"
+    },
+    "engines": {
+        "node": ">=16.0.0"
+    }
+}
