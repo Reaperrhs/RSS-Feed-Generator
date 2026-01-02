@@ -18,6 +18,7 @@ export const CreateFeed: React.FC<CreateFeedProps> = ({ onSuccess, onCancel }) =
   const [step, setStep] = useState<'input' | 'processing' | 'preview' | 'uploading'>('input');
   const [generatedXML, setGeneratedXML] = useState('');
   const [previewData, setPreviewData] = useState<any>(null);
+  const [refreshInterval, setRefreshInterval] = useState<number>(3600); // Default 1 hour
 
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,7 +66,7 @@ export const CreateFeed: React.FC<CreateFeedProps> = ({ onSuccess, onCancel }) =
         // Dynamic Feed: specific function domain
         try {
           const domain = appwriteConfig.functionDomain.replace(/^https?:\/\//, '').replace(/\/$/, '');
-          publicUrl = `https://${domain}/?url=${encodeURIComponent(url)}`;
+          publicUrl = `https://${domain}/?url=${encodeURIComponent(url)}&cache=${refreshInterval}`;
           // specific function domain handles GET requests automatically
           await new Promise(resolve => setTimeout(resolve, 1000)); // UX delay
         } catch (e) {
@@ -93,7 +94,8 @@ export const CreateFeed: React.FC<CreateFeedProps> = ({ onSuccess, onCancel }) =
       parsedChannel: previewData,
       publicUrl,
       fileId,
-      type: appwriteConfig?.functionDomain ? 'dynamic' : 'static'
+      type: appwriteConfig?.functionDomain ? 'dynamic' : 'static',
+      refreshInterval
     };
 
     saveFeed(newFeed);

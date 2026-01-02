@@ -24,6 +24,7 @@ export interface SavedFeed {
   publicUrl?: string; // URL from Appwrite
   fileId?: string; // Appwrite File ID
   type: 'static' | 'dynamic'; // Feed generation mode
+  refreshInterval?: number; // Cache duration in seconds
 }
 
 export interface AppwriteConfig {

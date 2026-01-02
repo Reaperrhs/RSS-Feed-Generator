@@ -9,6 +9,10 @@ import { Client } from 'node-appwrite';
 
 export default async ({ req, res, log, error }) => {
     const url = req.query.url || req.body.url;
+    const cacheTime = parseInt(req.query.cache) || 3600;
+
+    // Validate cache time (min 60s, max 7 days)
+    const finalCacheTime = Math.max(60, Math.min(604800, cacheTime));
 
     if (!url) {
         return res.json({ error: "Missing 'url' parameter" }, 400);
@@ -19,7 +23,7 @@ export default async ({ req, res, log, error }) => {
 
         return res.send(rssXml, 200, {
             "Content-Type": "application/xml",
-            "Cache-Control": "public, max-age=3600" // Cache for 1 hour
+            "Cache-Control": `public, max-age=${finalCacheTime}`
         });
     } catch (e) {
         error("RSS Generation Failed: " + e.message);

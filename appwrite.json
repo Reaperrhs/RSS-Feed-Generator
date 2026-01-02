@@ -17,7 +17,7 @@
             ],
             "events": [],
             "schedule": "",
-            "timeout": 15,
+            "timeout": 120,
             "variables": {
                 "OPENROUTER_API_KEY": ""
             }
