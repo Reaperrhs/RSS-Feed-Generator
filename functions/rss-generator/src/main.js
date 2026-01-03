@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import { Client, Databases, ID, Query } from 'node-appwrite';
-import fetch from 'node-fetch';
-// Force deployment update 3 (Fixing 500 errors)
+// Remove node-fetch import, use native fetch
+// Force deployment update 4 (Simpler Debug Mode)
 
 /**
  * RSS Feed Generator Function
@@ -12,6 +12,10 @@ import fetch from 'node-fetch';
  */
 
 export default async ({ req, res, log, error }) => {
+    // Debug logging for environment
+    log("RSS Generator Called");
+    log("Environment Keys: " + JSON.stringify(Object.keys(process.env).filter(k => k.includes("API_KEY"))));
+
     const url = req.query.url || req.body.url;
     const cacheTime = parseInt(req.query.cache) || 3600;
 
@@ -26,10 +30,11 @@ export default async ({ req, res, log, error }) => {
         // Fix: Check both possible variable names for the API key
         const apiKey = process.env.OPENROUTER_API_KEY_SECURE || process.env.OPENROUTER_API_KEY;
         if (!apiKey) {
+            error("CRITICAL: API Key not found in environment.");
             throw new Error("Missing API Key configuration.");
         }
 
-        const rssXml = await generateRSSFromURL(url, apiKey);
+        const rssXml = await generateRSSFromURL(url, apiKey, log); // Pass logger
 
         return res.send(rssXml, 200, {
             "Content-Type": "application/xml",
@@ -49,6 +54,7 @@ const fetchWebPage = async (url, tryFeedFallback = false) => {
     const fetchViaAllOrigins = async (targetUrl) => {
         try {
             const aoUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+            // Native fetch
             const response = await fetch(aoUrl);
             if (response.ok) {
                 const data = await response.json();
@@ -62,6 +68,7 @@ const fetchWebPage = async (url, tryFeedFallback = false) => {
 
     try {
         // Direct call to Crawl4AI (bypassing Vite proxy)
+        // Native fetch
         const response = await fetch("https://crawl4ai.onekindpromo.com/crawl", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -121,7 +128,7 @@ const cdata = (content) => {
     return `<![CDATA[${safeContent}]]>`;
 };
 
-const generateRSSFromURL = async (url, apiKey) => {
+const generateRSSFromURL = async (url, apiKey, log) => {
     if (!apiKey) {
         throw new Error("OpenRouter API Key is missing.");
     }
@@ -216,51 +223,42 @@ const generateRSSFromURL = async (url, apiKey) => {
 
         const items = Array.isArray(parsedData.items) ? parsedData.items : [];
 
-        // --- CONCURRENCY FIX START ---
-        // Process items in batches to avoid rate limits and timeouts
-        // Batch size of 3 means 3 simultaneous requests max.
-        const BATCH_SIZE = 3;
+        // --- SERIAL EXECUTION FIX (Safest Mode) ---
         const enrichedItems = [];
+        for (const item of items) {
+            let finalLink = item.link;
+            try { finalLink = new URL(item.link, url).href; } catch (e) { }
 
-        for (let i = 0; i < items.length; i += BATCH_SIZE) {
-            const batch = items.slice(i, i + BATCH_SIZE);
+            let finalImage = item.image;
+            if (finalImage) {
+                try { finalImage = new URL(finalImage, url).href; } catch (e) { }
+                if (finalImage && finalImage.match(/(?<!wp-content.*)logo|(?<!wp-content.*)icon|avatar/i) && !finalImage.includes('uploads')) finalImage = null;
+            }
 
-            // Process batch in parallel
-            const batchResults = await Promise.all(batch.map(async (item) => {
-                let finalLink = item.link;
-                try { finalLink = new URL(item.link, url).href; } catch (e) { }
+            if (finalLink && !finalImage) {
+                try {
+                    const articleHtml = await fetchWebPage(finalLink, false);
+                    if (articleHtml) {
+                        // Robust Meta Tag Extraction
+                        const ogMatch = articleHtml.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i)
+                            || articleHtml.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:image["']/i);
 
-                let finalImage = item.image;
-                if (finalImage) {
-                    try { finalImage = new URL(finalImage, url).href; } catch (e) { }
-                    if (finalImage && finalImage.match(/(?<!wp-content.*)logo|(?<!wp-content.*)icon|avatar/i) && !finalImage.includes('uploads')) finalImage = null;
-                }
+                        const twitterMatch = articleHtml.match(/<meta[^>]*name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i)
+                            || articleHtml.match(/<meta[^>]*content=["']([^"']+)["'][^>]*name=["']twitter:image["']/i);
 
-                if (finalLink && !finalImage) {
-                    try {
-                        const articleHtml = await fetchWebPage(finalLink, false);
-                        if (articleHtml) {
-                            // Robust Meta Tag Extraction
-                            const ogMatch = articleHtml.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i)
-                                || articleHtml.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:image["']/i);
-
-                            const twitterMatch = articleHtml.match(/<meta[^>]*name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i)
-                                || articleHtml.match(/<meta[^>]*content=["']([^"']+)["'][^>]*name=["']twitter:image["']/i);
-
-                            if (ogMatch) finalImage = ogMatch[1];
-                            else if (twitterMatch) finalImage = twitterMatch[1];
-                        }
-                    } catch (e) {
-                        // Ignore individual fetch errors so the whole feed doesn't fail
-                        console.warn(`Failed to enrich item ${finalLink}: ${e.message}`);
+                        if (ogMatch) finalImage = ogMatch[1];
+                        else if (twitterMatch) finalImage = twitterMatch[1];
                     }
+                } catch (e) {
+                    if (log) log(`Failed to enrich item ${finalLink}: ${e.message}`);
                 }
+            }
 
-                const imgTag = finalImage
-                    ? `<enclosure url="${escapeXml(finalImage)}" type="image/jpeg" length="0" />`
-                    : '';
+            const imgTag = finalImage
+                ? `<enclosure url="${escapeXml(finalImage)}" type="image/jpeg" length="0" />`
+                : '';
 
-                return `
+            enrichedItems.push(`
             <item>
               <title>${escapeXml(item.title || 'No Title')}</title>
               <link>${escapeXml(finalLink || '#')}</link>
@@ -269,12 +267,9 @@ const generateRSSFromURL = async (url, apiKey) => {
               <pubDate>${escapeXml(item.pubDate || new Date().toUTCString())}</pubDate>
               ${imgTag}
             </item>
-          `;
-            }));
-
-            enrichedItems.push(...batchResults);
+          `);
         }
-        // --- CONCURRENCY FIX END ---
+        // --- END SERIAL EXECUTION ---
 
         return `<?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated by RSS Gen v2.1 (Node 20 Upgrade) -->
@@ -288,7 +283,7 @@ const generateRSSFromURL = async (url, apiKey) => {
 </rss>`.trim();
 
     } catch (error) {
-        console.error("RSS Gen Error:", error);
+        if (log) log("RSS Gen Error: " + error);
         throw error;
     }
 };
