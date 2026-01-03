@@ -94,9 +94,10 @@ const escapeXml = (unsafe: string): string => {
 };
 
 export const generateRSSFromURL = async (url: string): Promise<string> => {
-  const apiKey = process.env.OPENROUTER_API_KEY_SECURE || process.env.OPENROUTER_API_KEY;
+  // In Vite/frontend logic, we use import.meta.env and VITE_ prefix
+  const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY || import.meta.env.VITE_OPENROUTER_API_KEY_SECURE || process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
-    throw new Error("OpenRouter API Key is missing. Please add it to your settings or .env.local file.");
+    throw new Error("OpenRouter API Key is missing. Please add VITE_OPENROUTER_API_KEY to your settings.");
   }
 
   try {
