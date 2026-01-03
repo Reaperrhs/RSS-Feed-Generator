@@ -1,0 +1,110 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* Host feeds.mileninety.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 172.245.184.207
+*   Trying 172.245.184.207:443...
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* ALPN: server accepted http/1.1
+* Established connection to feeds.mileninety.com (172.245.184.207 port 443) from 192.168.1.110 port 54044 
+* using HTTP/1.x
+> GET /?url=https%3A%2F%2Fwww.bbc.com%2Fnews HTTP/1.1
+
+> Host: feeds.mileninety.com
+
+> User-Agent: curl/8.16.0
+
+> Accept: */*
+
+> 
+
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+* Request completely sent off
+
+  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:11 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:12 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:13 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:14 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:15 --:--:--     0< HTTP/1.1 200 OK
+
+< Cache-Control: public, max-age=3600
+
+< Content-Type: application/xml; charset=utf-8
+
+< Date: Sat, 03 Jan 2026 22:00:51 GMT
+
+< Server: Utopia/Http
+
+< Vary: Accept-Encoding
+
+< X-Appwrite-Execution-Id: 69599184073bf6417306
+
+< X-Debug-Speed: 15.116240024567
+
+< X-Utopia-Compression: true
+
+< Transfer-Encoding: chunked
+
+< 
+
+{ [4676 bytes data]
+
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>BBC News - Top Stories</title>
+    <link>https://www.bbc.com/news</link>
+    <description><![CDATA[The latest top stories from BBC News.]]></description>
+    
+            <item>
+              <title>Trump says US is going to &apos;run&apos; Venezuela after capturing President Maduro</title>
+              <link>https://www.bbc.com/news/live/c5yqygxe41pt</link>
+              <guid isPermaLink="false">https://www.bbc.com/news/live/c5yqygxe41pt?t=1767477651112</guid>
+              <description><![CDATA[Donald Trump stated the US would "run" Venezuela until a stable transition occurs, following the capture of President Nicol├ís Maduro and his wife. The US launched strikes on Venezuela, leading to what Caracas described as "extremely serious military aggression." The situation remains tense as the international community reacts to this unprecedented move by the United States.<br/><img src="https://ichef.bbci.co.uk/ace/standard/480/cpsprodpb/5721/live/badf3630-e8c4-11f0-b67b-690eb873de1b.jpg.webp" style="max-width:100%;height:auto;margin-top:10px;" />]]></description>
+              <pubDate>Sat, 04 Jan 2026 14:00:00 GMT</pubDate>
+              <media:content url="https://ichef.bbci.co.uk/ace/standard/480/cpsprodpb/5721/live/badf3630-e8c4-11f0-b67b-690eb873de1b.jpg.webp" medium="image" />
+              <media:thumbnail url="https://ichef.bbci.co.uk/ace/standard/480/cpsprodpb/5721/live/badf3630-e8c4-11f0-b67b-690eb873de1b.jpg.webp" />
+              <enclosure url="https://ichef.bbci.co.uk/ace/standard/480/cpsprodpb/5721/live/badf3630-e8c4-11f0-b67b-690eb873de1b.jpg.webp" type="image/jpeg" length="0" />
+            </item>
+          
+            <item>
+              <title>Swiss open criminal case against managers of ski resort bar after deadly fire</title>
+              <link>https://www.bbc.com/news/articles/cjdjl303zxlo</link>
+              <guid isPermaLink="false">https://www.bbc.com/news/articles/cjdjl303zxlo?t=1767477651113</guid>
+              <description><![CDATA[Swiss authorities have initiated a criminal case against the managers of a ski resort bar following a devastating fire. Preliminary investigations indicate that the likely cause of the fire was sparklers on champagne bottles igniting the ceiling. The tragic event resulted in numerous fatalities and injuries, prompting a thorough investigation.<br/><img src="https://ichef.bbci.co.uk/news/480/cpsprodpb/eb88/live/796cc260-e894-11f0-b4b3-f5118369b77f.jpg.webp" style="max-width:100%;height:auto;margin-top:10px;" />]]></description>
+              <pubDate>Sat, 04 Jan 2026 10:00:00 GMT</pubDate>
+              <media:content url="https://ichef.bbci.co.uk/news/480/cpsprodpb/eb88/live/796cc260-e894-11f0-b4b3-f5118369b77f.jpg.webp" medium="image" />
+              <media:thumbnail url="https://ichef.bbci.co.uk/news/480/cpsprodpb/eb88/live/796cc260-e894-11f0-b4b3-f5118369b77f.jpg.webp" />
+              <enclosure url="https://ichef.bbci.co.uk/news/480/cpsprodpb/eb88/live/796cc260-e894-11f0-b4b3-f5118369b77f.jpg.webp" type="image/jpeg" length="0" />
+            </item>
+          
+            <item>
+              <title>Trump warning over Iran protests &apos;reckless&apos; says foreign minister</title>
+              <link>https://www.bbc.com/news/articles/c2057md3gvro</link>
+              <guid isPermaLink="false">https://www.bbc.com/news/articles/c2057md3gvro?t=1767477651113</guid>
+              <description><![CDATA[Iran's foreign minister has criticized US President Trump's warning regarding the ongoing protests in Iran as "reckless." Trump had stated that if peaceful protesters were harmed, Washington would "come to their rescue." This escalation in rhetoric adds to the already fraught relations between the two nations.<br/><img src="https://ichef.bbci.co.uk/news/480/cpsprodpb/fea1/live/bafc3380-e855-11f0-b67b-690eb873de1b.jpg.webp" style="max-width:100%;height:auto;margin-top:10px;" />]]></description>
+100  4663    0  4663    0     0    301      0 --:--:--  0:00:15 --:--:--  1136
+* Connection #0 to host feeds.mileninety.com:443 left intact
+              <pubDate>Sat, 04 Jan 2026 02:00:00 GMT</pubDate>
+              <media:content url="https://ichef.bbci.co.uk/news/480/cpsprodpb/fea1/live/bafc3380-e855-11f0-b67b-690eb873de1b.jpg.webp" medium="image" />
+              <media:thumbnail url="https://ichef.bbci.co.uk/news/480/cpsprodpb/fea1/live/bafc3380-e855-11f0-b67b-690eb873de1b.jpg.webp" />
+              <enclosure url="https://ichef.bbci.co.uk/news/480/cpsprodpb/fea1/live/bafc3380-e855-11f0-b67b-690eb873de1b.jpg.webp" type="image/jpeg" length="0" />
+            </item>
+          
+  </channel>
+</rss>

@@ -91,7 +91,7 @@ const fetchWebPage = async (url) => {
         // Use Jina.ai Reader for LLM-friendly Markdown
         const jinaUrl = `https://r.jina.ai/${url}`;
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s primary timeout
+        const timeoutId = setTimeout(() => controller.abort(), 8000); // 8s primary timeout
 
         const response = await fetch(jinaUrl, {
             headers: {
@@ -186,7 +186,7 @@ const generateRSSFromURL = async (url, apiKey, log) => {
         `;
 
         const aiController = new AbortController();
-        const aiTimeoutId = setTimeout(() => aiController.abort(), 15000); // 15s AI timeout
+        const aiTimeoutId = setTimeout(() => aiController.abort(), 12000); // 12s AI timeout
 
         const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
@@ -240,7 +240,7 @@ const generateRSSFromURL = async (url, apiKey, log) => {
         }
 
         const items = Array.isArray(parsedData.items) ? parsedData.items : [];
-        const itemsToProcess = items.slice(0, 4); // Reduce to 4 for reliability under 30s
+        const itemsToProcess = items.slice(0, 3); // Reduce to 3 for reliability under 30s
 
         // Parallel Processing for Speed
         const enrichedItems = await Promise.all(itemsToProcess.map(async (item) => {
@@ -257,7 +257,7 @@ const generateRSSFromURL = async (url, apiKey, log) => {
                 try {
                     // Quick 6s fetch for enrichment
                     const controller = new AbortController();
-                    const tId = setTimeout(() => controller.abort(), 6000);
+                    const tId = setTimeout(() => controller.abort(), 4000); // 4s enrichment timeout
 
                     const jinaUrl = `https://r.jina.ai/${finalLink}`;
                     const res = await fetch(jinaUrl, {

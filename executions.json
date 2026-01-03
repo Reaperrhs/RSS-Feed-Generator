@@ -1,0 +1,986 @@
+{
+  "total": 311,
+  "executions": [
+    {
+      "$id": "6957221081f3c026b38b",
+      "$createdAt": "2026-01-02T01:40:32.587+00:00",
+      "$updatedAt": "2026-01-02T01:40:32.587+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "HEAD",
+      "requestPath": "/",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "195.123.244.84"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [],
+      "logs": "",
+      "errors": "Invalid `method` param: Value must be one of (GET, POST, PUT, PATCH, DELETE, OPTIONS)\\nError Code: 400",
+      "duration": "0.037861824035645",
+      "scheduledAt": null
+    },
+    {
+      "$id": "695722140c485f766bf4",
+      "$createdAt": "2026-01-02T01:40:37.759+00:00",
+      "$updatedAt": "2026-01-02T01:40:37.759+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "GET",
+      "requestPath": "/",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "104.164.173.16"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.67588496208191",
+      "scheduledAt": null
+    },
+    {
+      "$id": "69572213f13e661d6ce3",
+      "$createdAt": "2026-01-02T01:40:37.917+00:00",
+      "$updatedAt": "2026-01-02T01:40:37.917+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "GET",
+      "requestPath": "/",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "107.172.195.174"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": 1.0658700466156,
+      "scheduledAt": null
+    },
+    {
+      "$id": "6957221b019a8471e599",
+      "$createdAt": "2026-01-02T01:40:43.119+00:00",
+      "$updatedAt": "2026-01-02T01:40:43.119+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "GET",
+      "requestPath": "/",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "104.164.173.5"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.097384929656982",
+      "scheduledAt": null
+    },
+    {
+      "$id": "6957221b236ec59d2415",
+      "$createdAt": "2026-01-02T01:40:43.209+00:00",
+      "$updatedAt": "2026-01-02T01:40:43.209+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "GET",
+      "requestPath": "/",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "146.190.242.161"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.043984174728394",
+      "scheduledAt": null
+    },
+    {
+      "$id": "6957221b513bd3409673",
+      "$createdAt": "2026-01-02T01:40:43.381+00:00",
+      "$updatedAt": "2026-01-02T01:40:43.381+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "GET",
+      "requestPath": "/",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "146.190.242.161"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.03764796257019",
+      "scheduledAt": null
+    },
+    {
+      "$id": "6957221c27bc7ec61343",
+      "$createdAt": "2026-01-02T01:40:44.218+00:00",
+      "$updatedAt": "2026-01-02T01:40:44.218+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "GET",
+      "requestPath": "/https%3A/assets.appwrite.io/",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "104.164.173.5"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.042852878570557",
+      "scheduledAt": null
+    },
+    {
+      "$id": "6957221c50f1fdea3b52",
+      "$createdAt": "2026-01-02T01:40:44.372+00:00",
+      "$updatedAt": "2026-01-02T01:40:44.372+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "POST",
+      "requestPath": "/graphql",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "content-length",
+          "value": "75"
+        },
+        {
+          "name": "content-type",
+          "value": "application/json"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "146.190.242.161"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.025399923324585",
+      "scheduledAt": null
+    },
+    {
+      "$id": "6957221c7d8761861585",
+      "$createdAt": "2026-01-02T01:40:44.552+00:00",
+      "$updatedAt": "2026-01-02T01:40:44.552+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "POST",
+      "requestPath": "/api",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "content-length",
+          "value": "75"
+        },
+        {
+          "name": "content-type",
+          "value": "application/json"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "146.190.242.161"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.025236845016479",
+      "scheduledAt": null
+    },
+    {
+      "$id": "6957221ca574388a8264",
+      "$createdAt": "2026-01-02T01:40:44.726+00:00",
+      "$updatedAt": "2026-01-02T01:40:44.726+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "POST",
+      "requestPath": "/api/graphql",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "content-length",
+          "value": "75"
+        },
+        {
+          "name": "content-type",
+          "value": "application/json"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "146.190.242.161"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.035429000854492",
+      "scheduledAt": null
+    },
+    {
+      "$id": "6957221cd12f8075ce5d",
+      "$createdAt": "2026-01-02T01:40:44.892+00:00",
+      "$updatedAt": "2026-01-02T01:40:44.892+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "POST",
+      "requestPath": "/graphql/api",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "content-length",
+          "value": "75"
+        },
+        {
+          "name": "content-type",
+          "value": "application/json"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "146.190.242.161"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.022443056106567",
+      "scheduledAt": null
+    },
+    {
+      "$id": "6957221d0407625c9c8f",
+      "$createdAt": "2026-01-02T01:40:45.076+00:00",
+      "$updatedAt": "2026-01-02T01:40:45.076+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "POST",
+      "requestPath": "/api/gql",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "content-length",
+          "value": "75"
+        },
+        {
+          "name": "content-type",
+          "value": "application/json"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "146.190.242.161"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.046647787094116",
+      "scheduledAt": null
+    },
+    {
+      "$id": "6957221e529461a68be1",
+      "$createdAt": "2026-01-02T01:40:46.395+00:00",
+      "$updatedAt": "2026-01-02T01:40:46.395+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "GET",
+      "requestPath": "/swagger-ui.html",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "146.190.242.161"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.034093856811523",
+      "scheduledAt": null
+    },
+    {
+      "$id": "6957221f50a3939094c7",
+      "$createdAt": "2026-01-02T01:40:47.370+00:00",
+      "$updatedAt": "2026-01-02T01:40:47.370+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "GET",
+      "requestPath": "/swagger/index.html",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "146.190.242.161"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.029218912124634",
+      "scheduledAt": null
+    },
+    {
+      "$id": "695722205900bfa6235e",
+      "$createdAt": "2026-01-02T01:40:48.403+00:00",
+      "$updatedAt": "2026-01-02T01:40:48.403+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "GET",
+      "requestPath": "/swagger/swagger-ui.html",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "146.190.242.161"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.023058176040649",
+      "scheduledAt": null
+    },
+    {
+      "$id": "6957222151196f4bfdd4",
+      "$createdAt": "2026-01-02T01:40:49.377+00:00",
+      "$updatedAt": "2026-01-02T01:40:49.377+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "GET",
+      "requestPath": "/webjars/swagger-ui/index.html",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "146.190.242.161"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.030877828598022",
+      "scheduledAt": null
+    },
+    {
+      "$id": "695722219d0edcf806ba",
+      "$createdAt": "2026-01-02T01:40:49.675+00:00",
+      "$updatedAt": "2026-01-02T01:40:49.675+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "GET",
+      "requestPath": "/https%3A/assets.appwrite.io/https%3A/assets.appwrite.io/",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "104.164.173.5"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.018703937530518",
+      "scheduledAt": null
+    },
+    {
+      "$id": "6957222252f9d05f8cca",
+      "$createdAt": "2026-01-02T01:40:50.381+00:00",
+      "$updatedAt": "2026-01-02T01:40:50.381+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "GET",
+      "requestPath": "/swagger.json",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "146.190.242.161"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.023891925811768",
+      "scheduledAt": null
+    },
+    {
+      "$id": "6957222355709bde3c14",
+      "$createdAt": "2026-01-02T01:40:51.402+00:00",
+      "$updatedAt": "2026-01-02T01:40:51.402+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "GET",
+      "requestPath": "/swagger/v1/swagger.json",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "146.190.242.161"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.036869049072266",
+      "scheduledAt": null
+    },
+    {
+      "$id": "6957222453a0914501ca",
+      "$createdAt": "2026-01-02T01:40:52.410+00:00",
+      "$updatedAt": "2026-01-02T01:40:52.410+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "GET",
+      "requestPath": "/v2/api-docs",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "146.190.242.161"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.050980806350708",
+      "scheduledAt": null
+    },
+    {
+      "$id": "69572225566d927e769d",
+      "$createdAt": "2026-01-02T01:40:53.408+00:00",
+      "$updatedAt": "2026-01-02T01:40:53.408+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "GET",
+      "requestPath": "/v3/api-docs",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "146.190.242.161"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.039354085922241",
+      "scheduledAt": null
+    },
+    {
+      "$id": "69572226557042c1e043",
+      "$createdAt": "2026-01-02T01:40:54.393+00:00",
+      "$updatedAt": "2026-01-02T01:40:54.393+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "GET",
+      "requestPath": "/api-docs/swagger.json",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "146.190.242.161"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.029727935791016",
+      "scheduledAt": null
+    },
+    {
+      "$id": "69572227533cf5fc49da",
+      "$createdAt": "2026-01-02T01:40:55.400+00:00",
+      "$updatedAt": "2026-01-02T01:40:55.400+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "GET",
+      "requestPath": "/api/swagger.json",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "146.190.242.161"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.045571088790894",
+      "scheduledAt": null
+    },
+    {
+      "$id": "6957222854f7c5357827",
+      "$createdAt": "2026-01-02T01:40:56.407+00:00",
+      "$updatedAt": "2026-01-02T01:40:56.407+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "GET",
+      "requestPath": "/@vite/env",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "146.190.242.161"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.045809984207153",
+      "scheduledAt": null
+    },
+    {
+      "$id": "69572229546c053fd9ba",
+      "$createdAt": "2026-01-02T01:40:57.418+00:00",
+      "$updatedAt": "2026-01-02T01:40:57.418+00:00",
+      "$permissions": [],
+      "functionId": "rss-generator",
+      "deploymentId": "69549759ee27a5159933",
+      "trigger": "http",
+      "status": "failed",
+      "requestMethod": "GET",
+      "requestPath": "/actuator/env",
+      "requestHeaders": [
+        {
+          "name": "host",
+          "value": "feeds.mileninety.com"
+        },
+        {
+          "name": "x-appwrite-client-ip",
+          "value": "146.190.242.161"
+        }
+      ],
+      "responseStatusCode": 500,
+      "responseBody": "",
+      "responseHeaders": [
+        {
+          "name": "content-type",
+          "value": "text/plain; charset=utf-8, text/html"
+        },
+        {
+          "name": "content-length",
+          "value": "0, 9148"
+        }
+      ],
+      "logs": "",
+      "errors": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js\n    at new NodeError (node:internal/errors:387:5)\n    at packageResolve (node:internal/modules/esm/resolve:852:9)\n    at moduleResolve (node:internal/modules/esm/resolve:901:20)\n    at defaultResolve (node:internal/modules/esm/resolve:1115:11)\n    at nextResolve (node:internal/modules/esm/loader:163:28)\n    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)\n    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)\n    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)\n    at link (node:internal/modules/esm/module_job:75:36)\n",
+      "duration": "0.060573816299438",
+      "scheduledAt": null
+    }
+  ]
+}

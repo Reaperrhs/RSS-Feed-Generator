@@ -1,0 +1,38 @@
+{
+  "$id": "695989863e3fd3b402de",
+  "$createdAt": "2026-01-03T21:26:30.286+00:00",
+  "$updatedAt": "2026-01-03T21:26:30.286+00:00",
+  "$permissions": [],
+  "functionId": "rss-generator",
+  "deploymentId": "695982176014bbc5f776",
+  "trigger": "http",
+  "status": "failed",
+  "requestMethod": "GET",
+  "requestPath": "/?url=https%3A%2F%2Fwww.travelpulse.com%2Fnews%2Fcruise",
+  "requestHeaders": [
+    {
+      "name": "host",
+      "value": "feeds.mileninety.com"
+    },
+    {
+      "name": "x-appwrite-client-ip",
+      "value": "129.222.84.232"
+    }
+  ],
+  "responseStatusCode": 500,
+  "responseBody": "",
+  "responseHeaders": [
+    {
+      "name": "content-type",
+      "value": "text/plain; charset=utf-8, text/html"
+    },
+    {
+      "name": "content-length",
+      "value": "0, 9150"
+    }
+  ],
+  "logs": "",
+  "errors": "Could not load code file.\nError: Cannot find module '/usr/local/server/src/function/src/main.js'\nRequire stack:\n- /usr/local/server/src/server.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1225:15)\n    at Module._load (node:internal/modules/cjs/loader:1051:27)\n    at Module.require (node:internal/modules/cjs/loader:1311:19)\n    at require (node:internal/modules/helpers:179:18)\n    at execute (/usr/local/server/src/server.js:185:22)\n    at action (/usr/local/server/src/server.js:237:27)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async /usr/local/server/src/server.js:26:5\n",
+  "duration": "0.018162965774536",
+  "scheduledAt": null
+}

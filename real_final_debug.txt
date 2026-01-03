@@ -1,0 +1,78 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* Host feeds.mileninety.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 172.245.184.207
+*   Trying 172.245.184.207:443...
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* ALPN: server accepted http/1.1
+* Established connection to feeds.mileninety.com (172.245.184.207 port 443) from 192.168.1.110 port 55010 
+* using HTTP/1.x
+> GET /?url=https%3A%2F%2Fwww.travelpulse.com%2Fnews%2Fcruise HTTP/1.1
+
+> Host: feeds.mileninety.com
+
+> User-Agent: curl/8.16.0
+
+> Accept: */*
+
+> 
+
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+* Request completely sent off
+
+  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:11 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:12 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:13 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:14 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:15 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:16 --:--:--     0< HTTP/1.1 200 OK
+
+< Cache-Control: public, max-age=3600
+
+< Content-Length: 588
+
+< Content-Type: application/xml; charset=utf-8
+
+< Date: Sat, 03 Jan 2026 21:57:42 GMT
+
+< Server: Utopia/Http
+
+< X-Appwrite-Execution-Id: 695990c63434e5f47761
+
+< X-Debug-Speed: 16.238651037216
+
+< 
+
+{ [588 bytes data]
+
+100   588  100   588    0     0     35      0  0:00:16  0:00:16 --:--:--   141
+* Connection #0 to host feeds.mileninety.com:443 left intact
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Error: Could not fetch content</title>
+    <description>The target website could not be reached or blocked the request.</description>
+    <item>
+      <title>Error: Fetch Failed</title>
+      <description>Could not retrieve live content from https://www.travelpulse.com/news/cruise</description>
+      <link>https://www.travelpulse.com/news/cruise</link>
+      <guid>https://www.travelpulse.com/news/cruise#error</guid>
+      <pubDate>Sat, 03 Jan 2026 21:57:42 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

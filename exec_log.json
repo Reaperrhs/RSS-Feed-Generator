@@ -1,0 +1,36 @@
+{
+  "$id": "69596b5e351197d26e46",
+  "$createdAt": "2026-01-03T19:17:50.249+00:00",
+  "$updatedAt": "2026-01-03T19:17:50.249+00:00",
+  "$permissions": [
+    "read(\"user:68b3128e0033f63a8020\")"
+  ],
+  "functionId": "rss-generator",
+  "deploymentId": "695969def0119f32cbe8",
+  "trigger": "http",
+  "status": "completed",
+  "requestMethod": "POST",
+  "requestPath": "/",
+  "requestHeaders": [
+    {
+      "name": "x-appwrite-client-ip",
+      "value": "129.222.84.232"
+    }
+  ],
+  "responseStatusCode": 400,
+  "responseBody": "",
+  "responseHeaders": [
+    {
+      "name": "content-type",
+      "value": "application/json; charset=utf-8"
+    },
+    {
+      "name": "content-length",
+      "value": "35"
+    }
+  ],
+  "logs": "RSS Generator v5.1 Debug Start\nNode Version: v20.17.0\nFetch available: function\n",
+  "errors": "",
+  "duration": "0.022406101226807",
+  "scheduledAt": null
+}
