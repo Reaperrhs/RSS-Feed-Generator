@@ -1,0 +1,43 @@
+$id : 69572229546c053fd9ba
+$createdAt : 2026-01-02T01:40:57.418+00:00
+$updatedAt : 2026-01-02T01:40:57.418+00:00
+$permissions
+[]
+functionId : rss-generator
+deploymentId : 69549759ee27a5159933
+trigger : http
+status : failed
+requestMethod : GET
+requestPath : /actuator/env
+requestHeaders
+[90m                       [39m[90m                        [39m
+[90m [39m[31m name                 [39m[90mΓöé[39m[31m value                [39m[90m [39m
+[90m ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[39m[90mΓö╝ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ [39m
+[90m [39m host                 [90mΓöé[39m feeds.mileninety.com [90m [39m
+[90m ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[39m[90mΓö╝ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ [39m
+[90m [39m x-appwrite-client-ip [90mΓöé[39m 146.190.242.161      [90m [39m
+[90m                       [39m[90m                        [39m
+responseStatusCode : 500
+responseBody : 
+responseHeaders
+[90m                 [39m[90m                                        [39m
+[90m [39m[31m name           [39m[90mΓöé[39m[31m value                                [39m[90m [39m
+[90m ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[39m[90mΓö╝ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ [39m
+[90m [39m content-type   [90mΓöé[39m text/plain; charset=utf-8, text/html [90m [39m
+[90m ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[39m[90mΓö╝ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ [39m
+[90m [39m content-length [90mΓöé[39m 0, 9148                              [90m [39m
+[90m                 [39m[90m                                        [39m
+logs : 
+errors : Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'node-appwrite' imported from /usr/local/server/src/function/src/main.js
+    at new NodeError (node:internal/errors:387:5)
+    at packageResolve (node:internal/modules/esm/resolve:852:9)
+    at moduleResolve (node:internal/modules/esm/resolve:901:20)
+    at defaultResolve (node:internal/modules/esm/resolve:1115:11)
+    at nextResolve (node:internal/modules/esm/loader:163:28)
+    at ESMLoader.resolve (node:internal/modules/esm/loader:841:30)
+    at ESMLoader.getModuleJob (node:internal/modules/esm/loader:424:18)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:40)
+    at link (node:internal/modules/esm/module_job:75:36)
+
+duration : 0.060573816299438
+scheduledAt : null

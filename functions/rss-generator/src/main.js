@@ -4,7 +4,7 @@ import { Client } from 'node-appwrite';
  * RSS Feed Generator Function
  * 
  * required variables:
- * - OPENROUTER_API_KEY
+ * - OPENROUTER_API_KEY_SECURE
  */
 
 export default async ({ req, res, log, error }) => {
@@ -19,7 +19,7 @@ export default async ({ req, res, log, error }) => {
     }
 
     try {
-        const rssXml = await generateRSSFromURL(url, process.env.OPENROUTER_API_KEY);
+        const rssXml = await generateRSSFromURL(url, process.env.OPENROUTER_API_KEY_SECURE);
 
         return res.send(rssXml, 200, {
             "Content-Type": "application/xml",

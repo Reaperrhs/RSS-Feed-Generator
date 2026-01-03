@@ -15,6 +15,7 @@
             "execute": [
                 "any"
             ],
+            "commands": "npm install",
             "events": [],
             "schedule": "",
             "timeout": 120,

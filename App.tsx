@@ -38,7 +38,7 @@ const App: React.FC = () => {
       {/* Header */}
       <header className="border-b border-slate-800 bg-dark/50 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div 
+          <div
             className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
             onClick={() => {
               setView(AppView.DASHBOARD);
@@ -52,13 +52,11 @@ const App: React.FC = () => {
               RSS Gen AI
             </span>
           </div>
-          
+
           <div className="flex items-center gap-4">
-             <div className="text-sm text-slate-500 hidden sm:block">
-              Powered by Gemini
-            </div>
-            <Button 
-              variant="ghost" 
+
+            <Button
+              variant="ghost"
               onClick={() => setIsSettingsOpen(true)}
               className="p-2 h-auto"
               title="Appwrite Settings"
@@ -72,35 +70,35 @@ const App: React.FC = () => {
       {/* Main Content */}
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         {view === AppView.DASHBOARD && (
-          <Dashboard 
-            feeds={feeds} 
-            onCreateNew={() => setView(AppView.CREATE)} 
+          <Dashboard
+            feeds={feeds}
+            onCreateNew={() => setView(AppView.CREATE)}
             onSelectFeed={handleSelectFeed}
             onRefresh={refreshFeeds}
           />
         )}
 
         {view === AppView.CREATE && (
-          <CreateFeed 
-            onSuccess={handleCreateSuccess} 
-            onCancel={() => setView(AppView.DASHBOARD)} 
+          <CreateFeed
+            onSuccess={handleCreateSuccess}
+            onCancel={() => setView(AppView.DASHBOARD)}
           />
         )}
 
         {view === AppView.VIEW_FEED && selectedFeed && (
-          <FeedViewer 
-            feed={selectedFeed} 
+          <FeedViewer
+            feed={selectedFeed}
             onBack={() => {
               setView(AppView.DASHBOARD);
               setSelectedFeed(null);
-            }} 
+            }}
           />
         )}
       </main>
 
-      <SettingsModal 
-        isOpen={isSettingsOpen} 
-        onClose={() => setIsSettingsOpen(false)} 
+      <SettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
       />
 
       {/* Footer */}
