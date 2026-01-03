@@ -1,0 +1,39 @@
+$id : 69589b414fa47afbc52d
+$createdAt : 2026-01-03T04:29:53.353+00:00
+$updatedAt : 2026-01-03T04:29:59.844+00:00
+type : cli
+resourceId : rss-generator
+resourceType : functions
+entrypoint : src/main.js
+sourceSize : 8727
+buildSize : 584401
+totalSize : 593128
+buildId : 
+activate : true
+screenshotLight : 
+screenshotDark : 
+status : ready
+buildLogs : [90m[04:29:54] [31m[[0mopen-runtimes[31m][97m Environment preparation started. [0m
+[90m[04:29:54] [31m[[0mopen-runtimes[31m][97m Environment preparation finished. [0m
+[90m[04:29:54] [31m[[0mopen-runtimes[31m][97m Build command execution started. [0m
+
+added 2 packages, and audited 3 packages in 2s
+
+found 0 vulnerabilities
+[90m[04:29:57] [31m[[0mopen-runtimes[31m][97m Build command execution finished. [0m
+[90m[04:29:57] [31m[[0mopen-runtimes[31m][97m Build packaging started. [0m
+[90m[04:29:57] [31m[[0mopen-runtimes[31m][97m Build packaging finished. [0m
+[90m[04:29:57] [31m[[0mopen-runtimes[31m][32m Build finished. [0m
+[90m[04:29:59] [90m[[0mappwrite[90m][32m Deployment finished. [0m
+
+buildDuration : 7
+providerRepositoryName : 
+providerRepositoryOwner : 
+providerRepositoryUrl : 
+providerCommitHash : 
+providerCommitAuthorUrl : 
+providerCommitAuthor : 
+providerCommitMessage : 
+providerCommitUrl : 
+providerBranch : 
+providerBranchUrl : 

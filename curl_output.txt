@@ -1,0 +1,47 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* Host feeds.mileninety.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 172.245.184.207
+*   Trying 172.245.184.207:443...
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* ALPN: server accepted http/1.1
+* Established connection to feeds.mileninety.com (172.245.184.207 port 443) from 192.168.1.110 port 50702 
+* using HTTP/1.x
+> GET /?url=https://example.com HTTP/1.1
+
+> Host: feeds.mileninety.com
+
+> User-Agent: curl/8.16.0
+
+> Accept: */*
+
+> 
+
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+* Request completely sent off
+< HTTP/1.1 500 Internal Server Error
+
+< Content-Length: 32
+
+< Content-Type: application/json; charset=utf-8
+
+< Date: Sat, 03 Jan 2026 04:35:48 GMT
+
+< Server: Utopia/Http
+
+< X-Appwrite-Execution-Id: 69589ca482439b4c7ccc
+
+< X-Debug-Speed: 0.055161952972412
+
+< 
+
+{ [32 bytes data]
+
+100    32  100    32    0     0     89      0 --:--:-- --:--:-- --:--:--    90
+* Connection #0 to host feeds.mileninety.com:443 left intact
+{"error":"fetch is not defined"}
