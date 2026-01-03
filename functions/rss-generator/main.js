@@ -91,7 +91,7 @@ const fetchWebPage = async (url) => {
         // Use Jina.ai Reader for LLM-friendly Markdown
         const jinaUrl = `https://r.jina.ai/${url}`;
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 8000); // 8s primary timeout
+        const timeoutId = setTimeout(() => controller.abort(), 6000); // 6s primary timeout
 
         const response = await fetch(jinaUrl, {
             headers: {
@@ -186,7 +186,7 @@ const generateRSSFromURL = async (url, apiKey, log) => {
         `;
 
         const aiController = new AbortController();
-        const aiTimeoutId = setTimeout(() => aiController.abort(), 12000); // 12s AI timeout
+        const aiTimeoutId = setTimeout(() => aiController.abort(), 16000); // 16s AI timeout
 
         const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
@@ -216,15 +216,28 @@ const generateRSSFromURL = async (url, apiKey, log) => {
         let parsedData;
         try {
             let cleanContent = content.replace(/```(?:json)?\s*([\s\S]*?)\s*```/g, "$1").trim();
-            // Basic JSON repair for truncation
-            if (!cleanContent.endsWith('}')) {
-                if (cleanContent.includes('"items": [')) {
-                    cleanContent = cleanContent.substring(0, cleanContent.lastIndexOf('}') + 1);
-                    if (!cleanContent.endsWith(']}')) cleanContent += ']}';
-                    if (!cleanContent.startsWith('{')) cleanContent = '{' + cleanContent;
-                }
-            }
-            parsedData = JSON.parse(cleanContent);
+            // Robust JSON repair for truncation
+            const repairJson = (str) => {
+                if (str.endsWith('}')) return str;
+                let repaired = str;
+                // Count unclosed items
+                const opens = (repaired.match(/{/g) || []).length;
+                const closes = (repaired.match(/}/g) || []).length;
+                const unclosedBraces = opens - closes;
+
+                const openBrackets = (repaired.match(/\[/g) || []).length;
+                const closedBrackets = (repaired.match(/\]/g) || []).length;
+                const unclosedBrackets = openBrackets - closedBrackets;
+
+                // Strip trailing comma or partial key
+                repaired = repaired.replace(/,\s*"?[\w\s]*"?\s*$/g, '');
+                repaired = repaired.replace(/["\w\s]*$/g, '');
+
+                for (let i = 0; i < unclosedBrackets; i++) repaired += ']';
+                for (let i = 0; i < unclosedBraces; i++) repaired += '}';
+                return repaired;
+            };
+            parsedData = JSON.parse(repairJson(cleanContent));
         } catch (e) {
             const firstOpen = content.indexOf('{');
             const lastClose = content.lastIndexOf('}');

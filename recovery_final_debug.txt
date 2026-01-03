@@ -1,0 +1,86 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* Host feeds.mileninety.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 172.245.184.207
+*   Trying 172.245.184.207:443...
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* ALPN: server accepted http/1.1
+* Established connection to feeds.mileninety.com (172.245.184.207 port 443) from 192.168.1.110 port 63709 
+* using HTTP/1.x
+> GET /?url=https%3A%2F%2Fwww.bbc.com%2Fnews HTTP/1.1
+
+> Host: feeds.mileninety.com
+
+> User-Agent: curl/8.16.0
+
+> Accept: */*
+
+> 
+
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+* Request completely sent off
+
+  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0< HTTP/1.1 200 OK
+
+< Content-Type: application/xml; charset=utf-8
+
+< Date: Sat, 03 Jan 2026 22:27:04 GMT
+
+< Server: Utopia/Http
+
+< Vary: Accept-Encoding
+
+< X-Appwrite-Execution-Id: 695997afb4363f60b61b
+
+< X-Debug-Speed: 8.7752408981323
+
+< X-Utopia-Compression: true
+
+< Transfer-Encoding: chunked
+
+< 
+
+{ [1233 bytes data]
+
+100  1221    0  1221    0     0    135      0 --:--:--  0:00:09 --:--:--   259
+100  1221    0  1221    0     0    135      0 --:--:--  0:00:09 --:--:--   330
+* Connection #0 to host feeds.mileninety.com:443 left intact
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Error: JSON Parse Failed: Expected &apos;,&apos; or &apos;}&apos; after property value in JSON at position 272 | Content head: {
+  &quot;title&quot;: &quot;BBC News - Top Stories&quot;,
+  &quot;description&quot;: &quot;The latest top stories from BBC News&quot;,
+  &quot;i</title>
+    <description>
+      <![CDATA[
+      Function Crash Details:
+      Error: JSON Parse Failed: Expected ',' or '}' after property value in JSON at position 272 | Content head: {
+  "title": "BBC News - Top Stories",
+  "description": "The latest top stories from BBC News",
+  "i
+      Type: Error
+      Stack: Error: JSON Parse Failed: Expected ',' or '}' after property value in JSON at position 272 | Content head: {
+  "title": "BBC News - Top Stories",
+  "description": "The latest top stories from BBC News",
+  "i
+    at generateRSSFromURL (file:///usr/local/server/src/function/main.js:235:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Module.default (file:///usr/local/server/src/function/main.js:38:24)
+    at async execute (/usr/local/server/src/ser
+      ]]>
+    </description>
+  </channel>
+</rss>

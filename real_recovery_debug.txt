@@ -1,0 +1,122 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* Host feeds.mileninety.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 172.245.184.207
+*   Trying 172.245.184.207:443...
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* ALPN: server accepted http/1.1
+* Established connection to feeds.mileninety.com (172.245.184.207 port 443) from 192.168.1.110 port 63444 
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* using HTTP/1.x
+> GET /?url=https%3A%2F%2Fwww.bbc.com%2Fnews HTTP/1.1
+
+> Host: feeds.mileninety.com
+
+> User-Agent: curl/8.16.0
+
+> Accept: */*
+
+> 
+
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+* Request completely sent off
+
+  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:11 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:12 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:13 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:14 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:15 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:16 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:17 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:18 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:19 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:20 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:21 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:22 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:23 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:24 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:25 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:26 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:27 --:--:--     0< HTTP/1.1 200 OK
+
+< Cache-Control: public, max-age=3600
+
+< Content-Type: application/xml; charset=utf-8
+
+< Date: Sat, 03 Jan 2026 22:33:16 GMT
+
+< Server: Utopia/Http
+
+< Vary: Accept-Encoding
+
+< X-Appwrite-Execution-Id: 6959991105f74b26ab04
+
+< X-Debug-Speed: 27.447558164597
+
+< X-Utopia-Compression: true
+
+< Transfer-Encoding: chunked
+
+< 
+
+{ [2372 bytes data]
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>BBC News - Top Stories</title>
+    <link>https://www.bbc.com/news</link>
+    <description><![CDATA[The latest news from the BBC. Breaking news, analysis, features and more from the BBC News website.]]></description>
+    
+            <item>
+              <title>Trump says US is going to &apos;run&apos; Venezuela after capturing President Maduro</title>
+              <link>https://www.bbc.com/news/live/c5yqygxe41pt</link>
+              <guid isPermaLink="false">https://www.bbc.com/news/live/c5yqygxe41pt?t=1767479596442</guid>
+              <description><![CDATA[Donald Trump has declared the US will 'run' Venezuela following the capture of President Nicol├ís Maduro in what Caracas denounces as a serious military aggression. The US launched strikes, leading to Maduro's arrest, escalating tensions between the two nations and marking a significant interventionist move.<br/><img src="https://ichef.bbci.co.uk/ace/standard/480/cpsprodpb/5721/live/badf3630-e8c4-11f0-b67b-690eb873de1b.jpg.webp" style="max-width:100%;height:auto;margin-top:10px;" />]]></description>
+              <pubDate>Sat, 04 Jan 2026 12:00:00 GMT</pubDate>
+              <media:content url="https://ichef.bbci.co.uk/ace/standard/480/cpsprodpb/5721/live/badf3630-e8c4-11f0-b67b-690eb873de1b.jpg.webp" medium="image" />
+              <media:thumbnail url="https://ichef.bbci.co.uk/ace/standard/480/cpsprodpb/5721/live/badf3630-e8c4-11f0-b67b-690eb873de1b.jpg.webp" />
+              <enclosure url="https://ichef.bbci.co.uk/ace/standard/480/cpsprodpb/5721/live/badf3630-e8c4-11f0-b67b-690eb873de1b.jpg.webp" type="image/jpeg" length="0" />
+            </item>
+          
+            <item>
+              <title>What we know about Maduro&apos;s capture and US plan to &apos;run&apos; Venezuela</title>
+              <link>https://www.bbc.com/news/articles/crmlz7r0zrxo</link>
+              <guid isPermaLink="false">https://www.bbc.com/news/articles/crmlz7r0zrxo?t=1767479596443</guid>
+              <description><![CDATA[Following the capture of President Nicol├ís Maduro and his wife, Donald Trump announced that the United States would 'run' Venezuela until a 'safe' transition could be established, a move that has sparked international controversy and raised questions about the future of Venezuelan sovereignty and political stability.<br/><img src="https://ichef.bbci.co.uk/news/480/cpsprodpb/32b8/live/434dba00-e8d9-11f0-b67b-690eb873de1b.jpg.webp" style="max-width:100%;height:auto;margin-top:10px;" />]]></description>
+              <pubDate>Sat, 04 Jan 2026 12:00:00 GMT</pubDate>
+              <media:content url="https://ichef.bbci.co.uk/news/480/cpsprodpb/32b8/live/434dba00-e8d9-11f0-b67b-690eb873de1b.jpg.webp" medium="image" />
+              <media:thumbnail url="https://ichef.bbci.co.uk/news/480/cpsprodpb/32b8/live/434dba00-e8d9-11f0-b67b-690eb873de1b.jpg.webp" />
+              <enclosure url="https://ichef.bbci.co.uk/news/480/cpsprodpb/32b8/live/434dba00-e8d9-11f0-b67b-690eb873de1b.jpg.webp" type="image/jpeg" length="0" />
+            </item>
+          
+            <item>
+              <title>Venezuela could now define Trump&apos;s legacy - and America&apos;s place in the world</title>
+              <link>https://www.bbc.com/news/articles/cx2x70k2q26o</link>
+              <guid isPermaLink="false">https://www.bbc.com/news/articles/cx2x70k2q26o?t=1767479596443</guid>
+              <description><![CDATA[Anthony Zurcher writes that the removal of Nicol├ís Maduro and the pledge to rebuild the South American country signifies a major shift in President TrumpΓÇÖs 'America First' foreign policy vision, and this intervention could significantly impact Trump's legacy and redefine the US role on the global stage.<br/><img src="https://ichef.bbci.co.uk/news/480/cpsprodpb/5169/live/64ad6d80-e8d9-11f0-9ca9-bb676ea60a08.jpg.webp" style="max-width:100%;height:auto;margin-top:10px;" />]]></description>
+100  4641    0  4641    0     0    167      0 --:--:--  0:00:27 --:--:--  1077
+* Connection #0 to host feeds.mileninety.com:443 left intact
+              <pubDate>Sat, 04 Jan 2026 12:00:00 GMT</pubDate>
+              <media:content url="https://ichef.bbci.co.uk/news/480/cpsprodpb/5169/live/64ad6d80-e8d9-11f0-9ca9-bb676ea60a08.jpg.webp" medium="image" />
+              <media:thumbnail url="https://ichef.bbci.co.uk/news/480/cpsprodpb/5169/live/64ad6d80-e8d9-11f0-9ca9-bb676ea60a08.jpg.webp" />
+              <enclosure url="https://ichef.bbci.co.uk/news/480/cpsprodpb/5169/live/64ad6d80-e8d9-11f0-9ca9-bb676ea60a08.jpg.webp" type="image/jpeg" length="0" />
+            </item>
+          
+  </channel>
+</rss>

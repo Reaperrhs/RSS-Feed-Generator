@@ -1,0 +1,122 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* Host feeds.mileninety.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 172.245.184.207
+*   Trying 172.245.184.207:443...
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* ALPN: server accepted http/1.1
+* Established connection to feeds.mileninety.com (172.245.184.207 port 443) from 192.168.1.110 port 59034 
+* using HTTP/1.x
+> GET /?url=https%3A%2F%2Fwww.travelpulse.com%2Fnews%2Fcruise HTTP/1.1
+
+> Host: feeds.mileninety.com
+
+> User-Agent: curl/8.16.0
+
+> Accept: */*
+
+> 
+
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+* Request completely sent off
+
+  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:11 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:12 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:13 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:14 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:15 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:16 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:17 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:18 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:19 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:20 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:21 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:22 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:23 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:24 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:25 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:26 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:27 --:--:--     0< HTTP/1.1 200 OK
+
+< Cache-Control: public, max-age=3600
+
+< Content-Type: application/xml; charset=utf-8
+
+< Date: Sat, 03 Jan 2026 22:34:30 GMT
+
+< Server: Utopia/Http
+
+< Vary: Accept-Encoding
+
+< X-Appwrite-Execution-Id: 6959995a8ddc5f43e2ab
+
+< X-Debug-Speed: 27.725217103958
+
+< X-Utopia-Compression: true
+
+< Transfer-Encoding: chunked
+
+< 
+
+
+  0     0    0     0    0     0      0      0 --:--:--  0:00:27 --:--:--     0{ [4096 bytes data]
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Cruise News | TravelPulse</title>
+    <link>https://www.travelpulse.com/news/cruise</link>
+    <description><![CDATA[The latest industry news, ship launches, itineraries, and expert tips for cruise vacations.]]></description>
+
+    
+            <item>
+              <title>Carnival Returns As Official Cruise Line Sponsor for Times Square New Year&apos;s Eve</title>
+              <link>https://www.travelpulse.com/news/cruise/carnival-cruise-line-returns-as-official-cruise-line-sponsor-for-times-square-new-years-eve</link>
+              <guid isPermaLink="false">https://www.travelpulse.com/news/cruise/carnival-cruise-line-returns-as-official-cruise-line-sponsor-for-times-square-new-years-eve?t=1767479670272</guid>
+              <description><![CDATA[Carnival Cruise Line has once again partnered with Times Square New Year's Eve, becoming the official cruise line sponsor. This collaboration brings Carnival's festive spirit to the iconic New Year's Eve celebration, enhancing the experience for revelers. The brand aims to create memorable experiences both on land and at sea.<br/><img src="https://ik.imgkit.net/3vlqs5axxjf/TP/ik-seo/images/99999999-9999-9999-9999-999999999999/777513ad-043f-460f-b9bd-70cc8e5402a8/source/Carnival-Returns-As-Official-Cruise-Line-Sponsor-f.jpeg?tr=w-362%2Ch-372%2Cfo-auto" style="max-width:100%;height:auto;margin-top:10px;" />]]></description>
+              <pubDate>Sat, 03 Jan 2026 22:34:30 GMT</pubDate>
+              <media:content url="https://ik.imgkit.net/3vlqs5axxjf/TP/ik-seo/images/99999999-9999-9999-9999-999999999999/777513ad-043f-460f-b9bd-70cc8e5402a8/source/Carnival-Returns-As-Official-Cruise-Line-Sponsor-f.jpeg?tr=w-362%2Ch-372%2Cfo-auto" medium="image" />
+              <media:thumbnail url="https://ik.imgkit.net/3vlqs5axxjf/TP/ik-seo/images/99999999-9999-9999-9999-999999999999/777513ad-043f-460f-b9bd-70cc8e5402a8/source/Carnival-Returns-As-Official-Cruise-Line-Sponsor-f.jpeg?tr=w-362%2Ch-372%2Cfo-auto" />
+              <enclosure url="https://ik.imgkit.net/3vlqs5axxjf/TP/ik-seo/images/99999999-9999-9999-9999-999999999999/777513ad-043f-460f-b9bd-70cc8e5402a8/source/Carnival-Returns-As-Official-Cruise-Line-Sponsor-f.jpeg?tr=w-362%2Ch-372%2Cfo-auto" type="image/jpeg" length="0" />
+            </item>
+          
+            <item>
+              <title>Colorful New Mural Welcomes Cruise Passengers to Port Everglades</title>
+              <link>https://www.travelpulse.com/news/cruise/colorful-new-mural-welcomes-cruise-passengers-to-port-everglades-as-broward-county-marks-50-years-of-creativity</link>
+              <guid isPermaLink="false">https://www.travelpulse.com/news/cruise/colorful-new-mural-welcomes-cruise-passengers-to-port-everglades-as-broward-county-marks-50-years-of-creativity?t=1767479670273</guid>
+              <description><![CDATA[A vibrant new mural now greets cruise passengers arriving at Port Everglades, marking Broward County's 50th anniversary of creativity. This artwork aims to enhance the arrival experience, offering a colorful welcome and celebrating the region's artistic achievements. Passengers can enjoy this welcoming experience as they enter the destination.<br/><img src="https://ik.imgkit.net/3vlqs5axxjf/TP/ik-seo/images/99999999-9999-9999-9999-999999999999/a875918b-cbbf-4120-969e-03ce29bf3164/source/Colorful-New-Mural-Welcomes-Cruise-Passengers-to-P.jpg?tr=w-362%2Ch-372%2Cfo-auto" style="max-width:100%;height:auto;margin-top:10px;" />]]></description>
+              <pubDate>Sat, 03 Jan 2026 22:34:30 GMT</pubDate>
+              <media:content url="https://ik.imgkit.net/3vlqs5axxjf/TP/ik-seo/images/99999999-9999-9999-9999-999999999999/a875918b-cbbf-4120-969e-03ce29bf3164/source/Colorful-New-Mural-Welcomes-Cruise-Passengers-to-P.jpg?tr=w-362%2Ch-372%2Cfo-auto" medium="image" />
+              <media:thumbnail url="https://ik.imgkit.net/3vlqs5axxjf/TP/ik-seo/images/99999999-9999-9999-9999-999999999999/a875918b-cbbf-4120-969e-03ce29bf3164/source/Colorful-New-Mural-Welcomes-Cruise-Passengers-to-P.jpg?tr=w-362%2Ch-372%2Cfo-auto" />
+              <enclosure url="https://ik.imgkit.net/3vlqs5axxjf/TP/ik-seo/images/99999999-9999-9999-9999-999999999999/a875918b-cbbf-4120-969e-03ce29bf3164/source/Colorful-New-Mural-Welcomes-Cruise-Passengers-to-P.jpg?tr=w-362%2Ch-372%2Cfo-auto" type="image/jpeg" length="0" />
+            </item>
+          
+            <item>
+              <title>Atlas Ocean Voyages Celebrates Record 2025 Sales Performance</title>
+              <link>https://www.travelpulse.com/news/cruise/atlas-ocean-voyages-celebrates-record-sales-performance-in-2025</link>
+              <guid isPermaLink="false">https://www.travelpulse.com/news/cruise/atlas-ocean-voyages-celebrates-record-sales-performance-in-2025?t=1767479670273</guid>
+              <description><![CDATA[Atlas Ocean Voyages is celebrating a record-breaking sales performance in 2025.  The company has seen unprecedented demand for its luxurious and adventure-focused cruises. The company attributes its success to unique itineraries and exceptional customer service, attracting a growing number of travelers.<br/><img src="https://ik.imgkit.net/3vlqs5axxjf/TP/ik-seo/images/99999999-9999-9999-9999-999999999999/f485ef82-cc6a-4921-86c6-b6c5e05c7735/source/Atlas-Ocean-Voyages-Celebrates-Record-2025-Sales-P.jpg?tr=w-362%2Ch-178%2Cfo-auto" style="max-width:100%;height:auto;margin-top:10px;" />]]></description>
+              <pubDate>Sat, 03 Jan 2026 22:34:30 GMT</pubDate>
+              <media:content url="https://ik.imgkit.net/3vlqs5axxjf/TP/ik-seo/images/99999999-9999-9999-9999-999999999999/f485ef82-cc6a-4921-86c6-b6c5e05c7735/source/Atlas-Ocean-Voyages-Celebrates-Record-2025-Sales-P.jpg?tr=w-362%2Ch-178%2Cfo-auto" medium="image" />
+              <media:thumbnail url="https://ik.imgkit.net/3vlqs5axxjf/TP/ik-seo/images/99999999-9999-9999-9999-999999999999/f485ef82-cc6a-4921-86c6-b6c5e05c7735/source/Atlas-Ocean-Voyages-Celebrates-Record-2025-Sales-P.jpg?tr=w-362%2Ch-178%2Cfo-auto" />
+              <enclosure url="https://ik.imgkit.net/3vlqs5axxjf/TP/ik-seo/images/99999999-9999-9999-9999-999999999999/f485ef82-cc6a-4921-86c6-b6c5e05c7735/source/Atlas-Ocean-Voyages-Celebrates-Record-2025-Sales-P.jpg?tr=w-362%2Ch-178%2Cfo-auto" type="image/jpeg" length="0" />
+            </item>
+          
+  </channel>
+100  6492    0  6492    0     0    231      0 --:--:--  0:00:27 --:--:--  1806
+* Connection #0 to host feeds.mileninety.com:443 left intact
+</rss>

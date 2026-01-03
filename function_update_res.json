@@ -1,0 +1,51 @@
+{
+  "$id": "rss-generator",
+  "$createdAt": "2025-12-30T00:54:06.093+00:00",
+  "$updatedAt": "2026-01-03T22:11:15.703+00:00",
+  "execute": [],
+  "name": "RSS Generator",
+  "enabled": true,
+  "live": true,
+  "logging": true,
+  "runtime": "node-20.0",
+  "deploymentId": "695991c05b76eedcfdee",
+  "deploymentCreatedAt": "2026-01-03T22:01:36.807+00:00",
+  "latestDeploymentId": "695991c05b76eedcfdee",
+  "latestDeploymentCreatedAt": "2026-01-03T22:01:36.807+00:00",
+  "latestDeploymentStatus": "ready",
+  "scopes": [],
+  "vars": [
+    {
+      "$id": "695322dc82b495c2bf18",
+      "$createdAt": "2025-12-30T00:54:52.536+00:00",
+      "$updatedAt": "2025-12-30T00:58:25.986+00:00",
+      "key": "OPENROUTER_API_KEY",
+      "value": "",
+      "secret": true,
+      "resourceType": "function",
+      "resourceId": "rss-generator"
+    },
+    {
+      "$id": "6958881272e09f60161f",
+      "$createdAt": "2026-01-03T03:08:02.471+00:00",
+      "$updatedAt": "2026-01-03T03:08:02.471+00:00",
+      "key": "OPENROUTER_API_KEY_SECURE",
+      "value": "",
+      "secret": true,
+      "resourceType": "function",
+      "resourceId": "rss-generator"
+    }
+  ],
+  "events": [],
+  "schedule": "",
+  "timeout": 15,
+  "entrypoint": "main.js",
+  "commands": "",
+  "version": "v5",
+  "installationId": "",
+  "providerRepositoryId": "",
+  "providerBranch": "",
+  "providerRootDirectory": "",
+  "providerSilentMode": false,
+  "specification": "s-1vcpu-512mb"
+}
