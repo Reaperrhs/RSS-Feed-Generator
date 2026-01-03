@@ -1,8 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import { Client, Databases, ID, Query } from 'node-appwrite';
-// Remove node-fetch import, use native fetch
-// Force deployment update 4 (Simpler Debug Mode)
+
+// Force deployment update 6 (Native Fetch)
 
 /**
  * RSS Feed Generator Function
@@ -12,95 +11,107 @@ import { Client, Databases, ID, Query } from 'node-appwrite';
  */
 
 export default async ({ req, res, log, error }) => {
-    // Debug logging for environment
-    log("RSS Generator Called");
-    log("Environment Keys: " + JSON.stringify(Object.keys(process.env).filter(k => k.includes("API_KEY"))));
-
-    const url = req.query.url || req.body.url;
-    const cacheTime = parseInt(req.query.cache) || 3600;
-
-    // Validate cache time (min 60s, max 7 days)
-    const finalCacheTime = Math.max(60, Math.min(604800, cacheTime));
-
-    if (!url) {
-        return res.json({ error: "Missing 'url' parameter" }, 400);
-    }
-
     try {
-        // Fix: Check both possible variable names for the API key
-        const apiKey = process.env.OPENROUTER_API_KEY_SECURE || process.env.OPENROUTER_API_KEY;
-        if (!apiKey) {
-            error("CRITICAL: API Key not found in environment.");
-            throw new Error("Missing API Key configuration.");
+        // Debug logging
+        log("RSS Generator v5.1 Debug Start");
+        log("Node Version: " + process.version);
+        log("Fetch available: " + (typeof fetch));
+
+        const query = req.query || {};
+        const body = req.body || {};
+        const paramUrl = query.url || body.url;
+        // Decode URL if it appears encoded (e.g. starts with http%3A)
+        const url = (paramUrl && paramUrl.includes('%3A')) ? decodeURIComponent(paramUrl) : paramUrl;
+        const cacheTime = parseInt(query.cache) || 3600;
+        const finalCacheTime = Math.max(60, Math.min(604800, cacheTime));
+
+        if (!url) {
+            return res.json({ error: "Missing 'url' parameter" }, 400);
         }
 
-        const rssXml = await generateRSSFromURL(url, apiKey, log); // Pass logger
+        const apiKey = process.env.OPENROUTER_API_KEY_SECURE || process.env.OPENROUTER_API_KEY;
+        log("API Key present: " + (!!apiKey));
+        if (!apiKey) {
+            throw new Error("Missing API Key. Please set OPENROUTER_API_KEY.");
+        }
+
+        const rssXml = await generateRSSFromURL(url, apiKey, log);
 
         return res.send(rssXml, 200, {
-            "Content-Type": "application/xml",
+            "Content-Type": "application/xml; charset=utf-8",
             "Cache-Control": `public, max-age=${finalCacheTime}`
         });
     } catch (e) {
-        error("RSS Generation Failed: " + e.message);
-        // Return 500 but with more details in JSON if possible
-        return res.json({ error: e.message, details: "Check function logs for stack trace" }, 500);
+        log("ERROR CAUGHT: " + e.message);
+        if (e.stack) log(e.stack);
+        error("RSS Gen Failed: " + e.message);
+        // Return JSON with error
+        // Return XML with error so n8n RSS node doesn't crash
+        const xmlError = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Error: ${escapeXml(e.message)}</title>
+    <description>
+      <![CDATA[
+      Function Crash Details:
+      Error: ${e.message}
+      Type: ${e.name}
+      Stack: ${e.stack ? e.stack.substring(0, 500) : "no stack"}
+      ]]>
+    </description>
+  </channel>
+</rss>`;
+        return res.send(xmlError, 200, { 'Content-Type': 'application/xml' });
     }
 };
 
-// --- Helper Functions (Ported from geminiService.ts) ---
+// --- Helper Functions ---
 
-const fetchWebPage = async (url, tryFeedFallback = false) => {
+const fetchWebPage = async (url) => {
     // Helper for AllOrigins fallback
     const fetchViaAllOrigins = async (targetUrl) => {
+        const aoUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 7000); // 7s fallback timeout
         try {
-            const aoUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
-            // Native fetch
-            const response = await fetch(aoUrl);
+            const response = await fetch(aoUrl, { signal: controller.signal });
+            clearTimeout(timeoutId);
             if (response.ok) {
                 const data = await response.json();
                 return data.contents || "";
             }
         } catch (e) {
-            console.warn("AllOrigins fallback failed for:", targetUrl);
+            clearTimeout(timeoutId);
+            console.warn("AllOrigins fallback failed or timed out:", targetUrl);
         }
         return "";
     };
 
     try {
-        // Direct call to Crawl4AI (bypassing Vite proxy)
-        // Native fetch
-        const response = await fetch("https://crawl4ai.onekindpromo.com/crawl", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                urls: [url],
-                crawler_params: {
-                    headless: true,
-                    magic_mode: true,
-                    user_agent_mode: "random"
-                }
-            })
+        // Use Jina.ai Reader for LLM-friendly Markdown
+        const jinaUrl = `https://r.jina.ai/${url}`;
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s primary timeout
+
+        const response = await fetch(jinaUrl, {
+            headers: {
+                "X-Target-Selector": "body", // Optional: focus on body
+                "X-Return-Format": "markdown"
+            },
+            signal: controller.signal
         });
+        clearTimeout(timeoutId);
 
-        if (!response.ok) throw new Error("Failed to fetch page content from Crawl4AI");
+        if (!response.ok) throw new Error("Jina.ai fetch failed");
 
-        const data = await response.json();
-
-        if (data.results && data.results.length > 0) {
-            const result = data.results[0];
-
-            // Aggressive Fallback for ANY bot sign or non-200 status
-            if (result.status_code !== 200 || (result.html && result.html.length < 500) || (result.html && result.html.includes("Just a moment..."))) {
-                console.warn("Crawl4AI blocked or empty. Attempting fallback...");
-                // ... (existing fallback logic)
-                return await fetchViaAllOrigins(url);
-            }
-
-            return result.cleaned_html || result.html || "";
+        const text = await response.text();
+        if (!text || text.length < 100 || text.includes("Just a moment...")) {
+            throw new Error("Jina.ai content invalid");
         }
-        return "";
+        return text;
+
     } catch (error) {
-        console.warn("Crawl4AI fetch failed, falling back:", error);
+        console.warn("Jina.ai fetch failed, falling back:", error.message);
         return await fetchViaAllOrigins(url);
     }
 };
@@ -118,7 +129,6 @@ const escapeXml = (unsafe) => {
                 default: return c;
             }
         })
-        // eslint-disable-next-line no-control-regex
         .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
 };
 
@@ -129,50 +139,54 @@ const cdata = (content) => {
 };
 
 const generateRSSFromURL = async (url, apiKey, log) => {
-    if (!apiKey) {
-        throw new Error("OpenRouter API Key is missing.");
-    }
+    if (!apiKey) throw new Error("OpenRouter API Key is missing.");
 
     try {
-        const htmlContent = await fetchWebPage(url, true);
-
+        const htmlContent = await fetchWebPage(url);
+        // Simplified content cleaning
         const cleanedHtml = htmlContent
             ? htmlContent.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gmi, "")
                 .replace(/<style\b[^>]*>([\s\S]*?)<\/style>/gmi, "")
                 .replace(/\s+/g, " ").substring(0, 150000)
-            : "Could not fetch live content. Generate based on knowledge.";
+            : "No live content available.";
+
+        if (cleanedHtml === "No live content available.") {
+            if (log) log("Fetch failed - preventing hallucination.");
+            return `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Error: Could not fetch content</title>
+    <description>The target website could not be reached or blocked the request.</description>
+    <item>
+      <title>Error: Fetch Failed</title>
+      <description>Could not retrieve live content from ${escapeXml(url)}</description>
+      <link>${escapeXml(url)}</link>
+      <guid>${escapeXml(url)}#error</guid>
+      <pubDate>${new Date().toUTCString()}</pubDate>
+    </item>
+  </channel>
+</rss>`;
+        }
 
         const prompt = `
-      Task: Analyze the provided HTML and extract news articles/posts into a strict JSON format.
-      
-      Target Website: ${url}
-      
-      HTML Content:
-      ${cleanedHtml}
-      
-      Output Format:
-      Return ONLY a JSON object with this schema:
-      {
-        "title": "Site Title",
-        "description": "Site Description",
-        "items": [
-          {
-            "title": "Article Title",
-            "link": "URL (absolute or relative)",
-            "description": "Short summary (Extract if available, otherwise GENERATE a 1-sentence summary based on the title)",
-            "pubDate": "Date string",
-            "image": "Image URL (optional)"
-          }
-        ]
-      }
-      
-      Requirements:
-      1. Extract REAL items from the HTML.
-      2. If a link is relative, keep it relative.
-      3. Generate a description if missing.
-      4. **CRITICAL**: Extract the image URL from the <img> tag within the article card. Look for 'src', 'data-src', or 'data-lazy-src'. Note that valid article images often have 'loading="lazy"' or specific classes like 'wp-image-...'.
-      5. Do not use 1x1 pixels or logos.
-    `;
+        You are a premium RSS feed generator.
+        Extract the latest news items from the following content.
+        
+        OUTPUT FORMAT:
+        Return a JSON object: {"title": "Feed Title", "description": "Feed Description", "items": [{"title": "Item Title", "description": "DETAILED 30-50 word summary of the news story", "link": "Absolute URL", "image": "URL to main article image", "pubDate": "Date string"}]}
+
+        CRITICAL RULES:
+        1. DESCRIPTION: Provide a UNIQUE and SUBSTANTIAL summary (minimum 30 words). This MUST be the actual news content, not a placeholder.
+        2. IMAGE: You MUST extract the main high-res image URL for each item.
+        3. EXTRACT REAL ITEMS ONLY.
+        
+        Target Website: ${url}
+        Content:
+        ${cleanedHtml} 
+        `;
+
+        const aiController = new AbortController();
+        const aiTimeoutId = setTimeout(() => aiController.abort(), 15000); // 15s AI timeout
 
         const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
@@ -181,18 +195,19 @@ const generateRSSFromURL = async (url, apiKey, log) => {
                 "Content-Type": "application/json",
                 "X-Title": "RSS Gen AI Backend"
             },
+            signal: aiController.signal,
             body: JSON.stringify({
                 "model": "google/gemini-2.0-flash-001",
-                "messages": [
-                    { "role": "user", "content": prompt }
-                ],
-                "response_format": { "type": "json_object" }
+                "messages": [{ "role": "user", "content": prompt }],
+                "response_format": { "type": "json_object" },
+                "max_tokens": 8192
             })
         });
+        clearTimeout(aiTimeoutId);
 
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error?.message || `OpenRouter API error: ${response.status}`);
+            const text = await response.text();
+            throw new Error(`OpenRouter Error ${response.status}: ${text.substring(0, 100)}`);
         }
 
         const data = await response.json();
@@ -200,32 +215,35 @@ const generateRSSFromURL = async (url, apiKey, log) => {
 
         let parsedData;
         try {
-            let cleanContent = content;
-            const markdownMatch = content.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
-            if (markdownMatch) cleanContent = markdownMatch[1];
-
-            cleanContent = cleanContent
-                // eslint-disable-next-line no-control-regex
-                .replace(/[\x00-\x1F\x7F]/g, "")
-                .replace(/\\u(?![0-9a-fA-F]{4})/g, "\\\\u");
-
+            let cleanContent = content.replace(/```(?:json)?\s*([\s\S]*?)\s*```/g, "$1").trim();
+            // Basic JSON repair for truncation
+            if (!cleanContent.endsWith('}')) {
+                if (cleanContent.includes('"items": [')) {
+                    cleanContent = cleanContent.substring(0, cleanContent.lastIndexOf('}') + 1);
+                    if (!cleanContent.endsWith(']}')) cleanContent += ']}';
+                    if (!cleanContent.startsWith('{')) cleanContent = '{' + cleanContent;
+                }
+            }
             parsedData = JSON.parse(cleanContent);
         } catch (e) {
-            // Fallback parse
             const firstOpen = content.indexOf('{');
             const lastClose = content.lastIndexOf('}');
             if (firstOpen !== -1 && lastClose !== -1) {
-                parsedData = JSON.parse(content.substring(firstOpen, lastClose + 1));
+                try {
+                    parsedData = JSON.parse(content.substring(firstOpen, lastClose + 1));
+                } catch (innerE) {
+                    throw new Error("JSON Parse Failed: " + e.message + " | Content head: " + content.substring(0, 100));
+                }
             } else {
-                throw new Error("Failed to parse AI response JSON");
+                throw new Error("Failed to parse AI response: " + content.substring(0, 100));
             }
         }
 
         const items = Array.isArray(parsedData.items) ? parsedData.items : [];
+        const itemsToProcess = items.slice(0, 4); // Reduce to 4 for reliability under 30s
 
-        // --- SERIAL EXECUTION FIX (Safest Mode) ---
-        const enrichedItems = [];
-        for (const item of items) {
+        // Parallel Processing for Speed
+        const enrichedItems = await Promise.all(itemsToProcess.map(async (item) => {
             let finalLink = item.link;
             try { finalLink = new URL(item.link, url).href; } catch (e) { }
 
@@ -237,42 +255,59 @@ const generateRSSFromURL = async (url, apiKey, log) => {
 
             if (finalLink && !finalImage) {
                 try {
-                    const articleHtml = await fetchWebPage(finalLink, false);
-                    if (articleHtml) {
-                        // Robust Meta Tag Extraction
-                        const ogMatch = articleHtml.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i)
-                            || articleHtml.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:image["']/i);
+                    // Quick 6s fetch for enrichment
+                    const controller = new AbortController();
+                    const tId = setTimeout(() => controller.abort(), 6000);
 
-                        const twitterMatch = articleHtml.match(/<meta[^>]*name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i)
-                            || articleHtml.match(/<meta[^>]*content=["']([^"']+)["'][^>]*name=["']twitter:image["']/i);
+                    const jinaUrl = `https://r.jina.ai/${finalLink}`;
+                    const res = await fetch(jinaUrl, {
+                        headers: {
+                            "X-Return-Format": "markdown",
+                            "X-Target-Selector": "body"
+                        },
+                        signal: controller.signal
+                    });
+                    clearTimeout(tId);
 
+                    if (res.ok) {
+                        const articleHtml = await res.text();
+                        const ogMatch = articleHtml.match(/!\[.*?\]\((https?:\/\/[^\)]+)\)/i) // Jina markdown image
+                            || articleHtml.match(/og:image: (https?:\/\/[^\s]+)/i);
                         if (ogMatch) finalImage = ogMatch[1];
-                        else if (twitterMatch) finalImage = twitterMatch[1];
                     }
                 } catch (e) {
-                    if (log) log(`Failed to enrich item ${finalLink}: ${e.message}`);
+                    if (log) log(`Enrichment failed for ${finalLink}: ${e.message}`);
                 }
             }
 
-            const imgTag = finalImage
+            const mediaTag = finalImage
+                ? `<media:content url="${escapeXml(finalImage)}" medium="image" />`
+                : '';
+            const thumbnailTag = finalImage
+                ? `<media:thumbnail url="${escapeXml(finalImage)}" />`
+                : '';
+            const enclosureTag = finalImage
                 ? `<enclosure url="${escapeXml(finalImage)}" type="image/jpeg" length="0" />`
                 : '';
 
-            enrichedItems.push(`
+            // Move image to end so n8n picks up text snippet first
+            const descriptionWithImage = `${item.description || item.title || ''}${finalImage ? `<br/><img src="${escapeXml(finalImage)}" style="max-width:100%;height:auto;margin-top:10px;" />` : ''}`;
+
+            return `
             <item>
               <title>${escapeXml(item.title || 'No Title')}</title>
               <link>${escapeXml(finalLink || '#')}</link>
-              <guid isPermaLink="true">${escapeXml(finalLink || '#')}</guid>
-              <description>${cdata(item.description || item.title || '')}</description>
+              <guid isPermaLink="false">${escapeXml(finalLink || '#')}?t=${Date.now()}</guid>
+              <description>${cdata(descriptionWithImage)}</description>
               <pubDate>${escapeXml(item.pubDate || new Date().toUTCString())}</pubDate>
-              ${imgTag}
+              ${mediaTag}
+              ${thumbnailTag}
+              ${enclosureTag}
             </item>
-          `);
-        }
-        // --- END SERIAL EXECUTION ---
+          `;
+        }));
 
         return `<?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated by RSS Gen v2.1 (Node 20 Upgrade) -->
 <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
     <title>${escapeXml(parsedData.title || 'Generated Feed')}</title>
@@ -283,7 +318,7 @@ const generateRSSFromURL = async (url, apiKey, log) => {
 </rss>`.trim();
 
     } catch (error) {
-        if (log) log("RSS Gen Error: " + error);
+        if (log) log("RSS Gen Error Trace: " + error.stack);
         throw error;
     }
 };
