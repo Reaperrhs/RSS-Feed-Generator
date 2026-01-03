@@ -20,7 +20,8 @@
             "schedule": "",
             "timeout": 120,
             "variables": {
-                "OPENROUTER_API_KEY": ""
+                "OPENROUTER_API_KEY": "",
+                "OPENROUTER_API_KEY_SECURE": ""
             }
         }
     ]

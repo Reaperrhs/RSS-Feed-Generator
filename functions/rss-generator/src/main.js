@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { Client, Databases, ID, Query } from 'node-appwrite';
 import fetch from 'node-fetch';
-// Force deployment update 2
+// Force deployment update 3 (Fixing 500 errors)
 
 /**
  * RSS Feed Generator Function
@@ -23,7 +23,13 @@ export default async ({ req, res, log, error }) => {
     }
 
     try {
-        const rssXml = await generateRSSFromURL(url, process.env.OPENROUTER_API_KEY_SECURE);
+        // Fix: Check both possible variable names for the API key
+        const apiKey = process.env.OPENROUTER_API_KEY_SECURE || process.env.OPENROUTER_API_KEY;
+        if (!apiKey) {
+            throw new Error("Missing API Key configuration.");
+        }
+
+        const rssXml = await generateRSSFromURL(url, apiKey);
 
         return res.send(rssXml, 200, {
             "Content-Type": "application/xml",
@@ -31,7 +37,8 @@ export default async ({ req, res, log, error }) => {
         });
     } catch (e) {
         error("RSS Generation Failed: " + e.message);
-        return res.json({ error: e.message }, 500);
+        // Return 500 but with more details in JSON if possible
+        return res.json({ error: e.message, details: "Check function logs for stack trace" }, 500);
     }
 };
 
@@ -116,7 +123,7 @@ const cdata = (content) => {
 
 const generateRSSFromURL = async (url, apiKey) => {
     if (!apiKey) {
-        throw new Error("OpenRouter API Key is missing in function environment variables.");
+        throw new Error("OpenRouter API Key is missing.");
     }
 
     try {
@@ -209,49 +216,65 @@ const generateRSSFromURL = async (url, apiKey) => {
 
         const items = Array.isArray(parsedData.items) ? parsedData.items : [];
 
-        // Deep Enrichment (Simplified for backend - serial execution to avoid timeout/rate limits if possible, or Promise.all)
-        const enrichedItems = await Promise.all(items.map(async (item) => {
-            let finalLink = item.link;
-            try { finalLink = new URL(item.link, url).href; } catch (e) { }
+        // --- CONCURRENCY FIX START ---
+        // Process items in batches to avoid rate limits and timeouts
+        // Batch size of 3 means 3 simultaneous requests max.
+        const BATCH_SIZE = 3;
+        const enrichedItems = [];
 
-            let finalImage = item.image;
-            if (finalImage) {
-                try { finalImage = new URL(finalImage, url).href; } catch (e) { }
-                if (finalImage.match(/(?<!wp-content.*)logo|(?<!wp-content.*)icon|avatar/i) && !finalImage.includes('uploads')) finalImage = null;
-            }
+        for (let i = 0; i < items.length; i += BATCH_SIZE) {
+            const batch = items.slice(i, i + BATCH_SIZE);
 
-            if (finalLink && !finalImage) {
-                try {
-                    const articleHtml = await fetchWebPage(finalLink, false);
-                    if (articleHtml) {
-                        // Robust Meta Tag Extraction
-                        const ogMatch = articleHtml.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i)
-                            || articleHtml.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:image["']/i);
+            // Process batch in parallel
+            const batchResults = await Promise.all(batch.map(async (item) => {
+                let finalLink = item.link;
+                try { finalLink = new URL(item.link, url).href; } catch (e) { }
 
-                        const twitterMatch = articleHtml.match(/<meta[^>]*name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i)
-                            || articleHtml.match(/<meta[^>]*content=["']([^"']+)["'][^>]*name=["']twitter:image["']/i);
+                let finalImage = item.image;
+                if (finalImage) {
+                    try { finalImage = new URL(finalImage, url).href; } catch (e) { }
+                    if (finalImage && finalImage.match(/(?<!wp-content.*)logo|(?<!wp-content.*)icon|avatar/i) && !finalImage.includes('uploads')) finalImage = null;
+                }
 
-                        if (ogMatch) finalImage = ogMatch[1];
-                        else if (twitterMatch) finalImage = twitterMatch[1];
+                if (finalLink && !finalImage) {
+                    try {
+                        const articleHtml = await fetchWebPage(finalLink, false);
+                        if (articleHtml) {
+                            // Robust Meta Tag Extraction
+                            const ogMatch = articleHtml.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i)
+                                || articleHtml.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:image["']/i);
+
+                            const twitterMatch = articleHtml.match(/<meta[^>]*name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i)
+                                || articleHtml.match(/<meta[^>]*content=["']([^"']+)["'][^>]*name=["']twitter:image["']/i);
+
+                            if (ogMatch) finalImage = ogMatch[1];
+                            else if (twitterMatch) finalImage = twitterMatch[1];
+                        }
+                    } catch (e) {
+                        // Ignore individual fetch errors so the whole feed doesn't fail
+                        console.warn(`Failed to enrich item ${finalLink}: ${e.message}`);
                     }
-                } catch (e) { }
-            }
+                }
 
-            const imgTag = finalImage
-                ? `<enclosure url="${escapeXml(finalImage)}" type="image/jpeg" length="0" />`
-                : '';
+                const imgTag = finalImage
+                    ? `<enclosure url="${escapeXml(finalImage)}" type="image/jpeg" length="0" />`
+                    : '';
 
-            return `
-        <item>
-          <title>${escapeXml(item.title || 'No Title')}</title>
-          <link>${escapeXml(finalLink || '#')}</link>
-          <guid isPermaLink="true">${escapeXml(finalLink || '#')}</guid>
-          <description>${cdata(item.description || item.title || '')}</description>
-          <pubDate>${escapeXml(item.pubDate || new Date().toUTCString())}</pubDate>
-          ${imgTag}
-        </item>
-      `;
-        }));
+                return `
+            <item>
+              <title>${escapeXml(item.title || 'No Title')}</title>
+              <link>${escapeXml(finalLink || '#')}</link>
+              <guid isPermaLink="true">${escapeXml(finalLink || '#')}</guid>
+              <description>${cdata(item.description || item.title || '')}</description>
+              <pubDate>${escapeXml(item.pubDate || new Date().toUTCString())}</pubDate>
+              ${imgTag}
+            </item>
+          `;
+            }));
+
+            enrichedItems.push(...batchResults);
+        }
+        // --- CONCURRENCY FIX END ---
 
         return `<?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated by RSS Gen v2.1 (Node 20 Upgrade) -->
