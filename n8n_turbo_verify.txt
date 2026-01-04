@@ -1,0 +1,110 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* Host feeds.mileninety.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 172.245.184.207
+*   Trying 172.245.184.207:443...
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* ALPN: server accepted http/1.1
+* Established connection to feeds.mileninety.com (172.245.184.207 port 443) from 192.168.1.110 port 59382 
+* using HTTP/1.x
+> GET /?url=https%3A%2F%2Fwww.travelpulse.com%2Fnews%2Fcruise HTTP/1.1
+
+> Host: feeds.mileninety.com
+
+> User-Agent: curl/8.16.0
+
+> Accept: */*
+
+> 
+
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+* Request completely sent off
+
+  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:11 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:12 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:13 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:14 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:15 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:16 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:17 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:18 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:19 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:20 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:21 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:22 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:23 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:24 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:25 --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:--  0:00:26 --:--:--     0< HTTP/1.1 200 OK
+
+< Cache-Control: public, max-age=3600
+
+< Content-Type: application/xml; charset=utf-8
+
+< Date: Sun, 04 Jan 2026 02:28:19 GMT
+
+< Server: Utopia/Http
+
+< Vary: Accept-Encoding
+
+< X-Appwrite-Execution-Id: 6959d028c0b2239fc310
+
+< X-Debug-Speed: 26.745817184448
+
+< X-Utopia-Compression: true
+
+< Transfer-Encoding: chunked
+
+< 
+
+{ [2662 bytes data]
+
+100  2650    0  2650    0     0     98      0 --:--:--  0:00:26 --:--:--   576
+100  2650    0  2650    0     0     98      0 --:--:--  0:00:26 --:--:--   737
+* Connection #0 to host feeds.mileninety.com:443 left intact
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>TravelPulse Cruise News</title>
+    <link>https://www.travelpulse.com/news/cruise</link>
+    <description><![CDATA[The latest cruise news, including new ships, itineraries, and cruise line updates from TravelPulse.]]></description>
+    
+            <item>
+              <title>Carnival Returns As Official Cruise Line Sponsor for Times Square New Year&apos;s Eve</title>
+              <link>https://www.travelpulse.com/news/cruise/carnival-cruise-line-returns-as-official-cruise-line-sponsor-for-times-square-new-years-eve</link>
+              <guid isPermaLink="false">https://www.travelpulse.com/news/cruise/carnival-cruise-line-returns-as-official-cruise-line-sponsor-for-times-square-new-years-eve?t=1767493699501</guid>
+              <description><![CDATA[Carnival Cruise Line has once again partnered with Times Square New Year's Eve, becoming the event's official cruise line sponsor. This collaboration brings Carnival's celebratory spirit to the iconic New Year's Eve festivities, enhancing the experience for revelers and showcasing the cruise line's brand to a vast audience. Carnival aims to create memorable moments during the highly anticipated New Year's Eve celebration.]]></description>
+              <pubDate>Sun, 04 Jan 2026 02:28:19 GMT</pubDate>
+              
+              
+              
+            </item>
+          
+            <item>
+              <title>Colorful New Mural Welcomes Cruise Passengers to Port Everglades</title>
+              <link>https://www.travelpulse.com/news/cruise/colorful-new-mural-welcomes-cruise-passengers-to-port-everglades-as-broward-county-marks-50-years-of-creativity</link>
+              <guid isPermaLink="false">https://www.travelpulse.com/news/cruise/colorful-new-mural-welcomes-cruise-passengers-to-port-everglades-as-broward-county-marks-50-years-of-creativity?t=1767493699508</guid>
+              <description><![CDATA[A vibrant new mural now welcomes cruise passengers to Port Everglades, coinciding with Broward County's 50th anniversary of creativity. The artwork aims to enhance the arrival experience and celebrate the region's artistic spirit. This mural serves as a visual greeting, adding a touch of local culture and color for visitors arriving at this major cruise hub, with an artistic depiction of what the city has to offer.]]></description>
+              <pubDate>Sun, 04 Jan 2026 02:28:19 GMT</pubDate>
+              
+              
+              
+            </item>
+          
+  </channel>
+</rss>
