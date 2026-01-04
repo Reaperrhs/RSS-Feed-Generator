@@ -1,7 +1,7 @@
 import React from 'react';
 import { SavedFeed } from '../types';
 import { Button } from './Button';
-import { Plus, Trash2, ExternalLink, Rss } from 'lucide-react';
+import { Plus, Trash2, ExternalLink, Rss, Copy, Check } from 'lucide-react';
 import { deleteFeed } from '../services/storageService';
 
 interface DashboardProps {
@@ -12,12 +12,24 @@ interface DashboardProps {
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ feeds, onCreateNew, onSelectFeed, onRefresh }) => {
+  const [copiedId, setCopiedId] = React.useState<string | null>(null);
+
   const handleDelete = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
     if (window.confirm("Are you sure you want to delete this feed?")) {
       deleteFeed(id);
       onRefresh();
     }
+  };
+
+  const handleCopy = (e: React.MouseEvent, url: string | undefined, id: string) => {
+    e.stopPropagation();
+    if (!url) return;
+
+    navigator.clipboard.writeText(url).then(() => {
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 2000);
+    });
   };
 
   if (feeds.length === 0) {
@@ -75,15 +87,33 @@ export const Dashboard: React.FC<DashboardProps> = ({ feeds, onCreateNew, onSele
 
             <h3 className="text-lg font-bold text-white mb-1 line-clamp-1">{feed.parsedChannel.title}</h3>
 
-            <a
-              href={feed.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="text-xs text-primary mb-3 block hover:underline truncate"
-            >
-              {feed.url}
-            </a>
+            <div className="flex items-center gap-2 mb-3">
+              <a
+                href={feed.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="text-xs text-primary hover:underline truncate flex-1"
+              >
+                {feed.url}
+              </a>
+              {feed.publicUrl && (
+                <button
+                  onClick={(e) => handleCopy(e, feed.publicUrl, feed.id)}
+                  className={`flex-shrink-0 p-1.5 rounded-md transition-all duration-200 ${copiedId === feed.id
+                      ? 'bg-green-500/20 text-green-500'
+                      : 'bg-slate-800 text-slate-400 hover:text-primary hover:bg-slate-700'
+                    }`}
+                  title="Copy RSS URL"
+                >
+                  {copiedId === feed.id ? (
+                    <Check className="w-3.5 h-3.5" />
+                  ) : (
+                    <Copy className="w-3.5 h-3.5" />
+                  )}
+                </button>
+              )}
+            </div>
 
             <p className="text-slate-400 text-sm mb-4 line-clamp-2 h-10">
               {feed.parsedChannel.description || 'No description available.'}
